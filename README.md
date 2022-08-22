@@ -36,13 +36,12 @@ Container images are configured using parameters passed at runtime (such as thos
 | Parameter | Function |
 | ---- | --- |
 | `-p 7878` | The port for the Radarr webinterface |
+| `-v /config` | Database and Radarr configs |
 | `-e PUID=1000` | for UserID - see below for explanation |
 | `-e PGID=1000` | for GroupID - see below for explanation |
 | `-e TZ=Europe/London` | Specify a timezone to use EG Europe/London, this is required for Radarr |
 | `-e UMASK_SET=022` | control permissions of files and directories created by Radarr |
-| `-v /config` | Database and Radarr configs |
-| `-v /storage` | Location of Movie Library and Download managers output directory |
-| `-e UPDATE_SMA="FALSE"` | TRUE = enabled :: Update SMA on container startup |
+| `-e enableRecyclarr=true` | true = enabled :: Enables Recyclarr to run every 4 hours |
 
 ## Application Setup
 
