@@ -7,8 +7,8 @@ echo " Docker Version: $dockerVersion"
 echo " May the vidz be with you!"
 echo "-----------------------------------------------------------------------------"
 echo "Donate: https://github.com/sponsors/RandomNinjaAtk"
-echo "Project: https://github.com/RandomNinjaAtk/docker-lidarr-extended"
-echo "Support: https://github.com/RandomNinjaAtk/docker-lidarr-extended/discussions"
+echo "Project: https://github.com/RandomNinjaAtk/docker-radarr-extended"
+echo "Support: https://github.com/RandomNinjaAtk/docker-radarr-extended/discussions"
 echo "-----------------------------------------------------------------------------"
 
 if [ "$enableRecyclarr" != "true" ]; then
@@ -17,9 +17,6 @@ if [ "$enableRecyclarr" != "true" ]; then
 fi
 
 echo "Starting Script...."
-processstartid="$(ps -A -o pid,cmd|grep "/config/extended/scripts/start_video.sh" | grep -v grep | head -n 1 | awk '{print $1}')"
-echo "To kill script, use the following command:"
-echo "kill -9 $processstartid"
 for (( ; ; )); do
 	let i++
 	if [ ! -d "/config/logs" ]; then
