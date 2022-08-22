@@ -13,7 +13,10 @@ echo "--------------------------------------------------------------------------
 
 if [ "$enableRecyclarr" != "true" ]; then
 	echo "Recyclarr disabled, enable by setting parameter: enableRecyclarr=true"
-	exit
+	sleep infinity
+else
+	echo "Waintg for Radarr to startup..."
+	sleep 2m
 fi
 
 echo "Starting Script...."
