@@ -25,6 +25,12 @@ if [ ! -f /recyclarr/recyclarr ]; then
     chmod u+rx /recyclarr/recyclarr
 fi
 
+if [ ! -f /config/extended/configs/recyclarr/recyclarr.yaml ]; then
+	cp "/recyclarr.yaml" "/config/extended/configs/recyclarr/recyclarr.yaml"
+	chmod 766 "/config/extended/configs/recyclarr/recyclarr.yaml"
+	chown abc:abc "/config/extended/configs/recyclarr/recyclarr.yaml"
+fi
+
 # update radarr
-/recyclarr/recyclarr radarr -c /recyclarr.yaml --app-data /recylarr
+/recyclarr/recyclarr radarr -c /config/extended/configs/recyclarr/recyclarr.yaml --app-data /recylarr
 exit
