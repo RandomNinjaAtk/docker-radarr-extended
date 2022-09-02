@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.001"
+scriptVersion="1.0.002"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -42,4 +42,30 @@ updateArr=$(curl -s "$arrUrl/api/v3/config/naming" -X PUT -H "Content-Type: appl
     }")
     
 log "Complete"
+
+log "Updating Radarr Media Management..."
+updateArr=$(curl -s "$arrUrl/api/v3/config/mediamanagement" -X PUT -H "Content-Type: application/json" -H "X-Api-Key: $arrApiKey" --data-raw '{
+  "autoUnmonitorPreviouslyDownloadedMovies":false,
+  "recycleBin":"",
+  "recycleBinCleanupDays":7,
+  "downloadPropersAndRepacks":"doNotPrefer",
+  "createEmptyMovieFolders":false,
+  "deleteEmptyFolders":true,
+  "fileDate":"none",
+  "rescanAfterRefresh":"always",
+  "autoRenameFolders":false,
+  "pathsDefaultStatic":false,
+  "setPermissionsLinux":true,
+  "chmodFolder":"777",
+  "chownGroup":"666",
+  "skipFreeSpaceCheckWhenImporting":false,
+  "minimumFreeSpaceWhenImporting":100,
+  "copyUsingHardlinks":true,
+  "importExtraFiles":true,
+  "extraFileExtensions":"srt",
+  "enableMediaInfo":true,
+  "id":1
+  }')
+log "Complete"
+
 exit
