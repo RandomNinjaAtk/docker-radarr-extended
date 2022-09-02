@@ -42,6 +42,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e TZ=Europe/London` | Specify a timezone to use EG Europe/London, this is required for Radarr |
 | `-e UMASK_SET=022` | control permissions of files and directories created by Radarr |
 | `-e enableRecyclarr=true` | true = enabled :: Enables Recyclarr to run every 4 hours |
+| `-e enableQueueCleaner=true` | true = enabled :: Enables QueueCleaner Script that automatically removes stuck downloads that cannot be automatically imported on a 15 minute interval |
 | `-e plexUrl=http://x.x.x.x:32400` | ONLY used if PlexNotify.bash is used...|
 | `-e plexToken=` | ONLY used if PlexNotify.bash is used... |
 
