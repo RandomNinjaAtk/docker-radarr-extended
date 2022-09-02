@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.002"
+scriptVersion="1.0.003"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -23,16 +23,22 @@ chmod 666 "/config/logs/QueueCleaner.txt"
 
 log () {
   m_time=`date "+%F %T"`
-  echo $m_time" :: "$1
+  echo $m_time" :: QueueCleaner :: "$1
 }
 
 arrQueueData="$(curl -s "$arrUrl/api/v3/queue?page=1&pagesize=1000000000&sortDirection=descending&sortKey=progress&includeUnknownMovieItems=true&apikey=${arrApiKey}" | jq -r .records[])"
 arrQueueIds=$(echo "$arrQueueData" | jq -r 'select(.status=="completed") | select(.trackedDownloadStatus=="warning") | .id')
+arrQueueIdsCount=$(echo "$arrQueueData" | jq -r 'select(.status=="completed") | select(.trackedDownloadStatus=="warning") | .id' | wc -l)
+if [ $arrQueueIdsCount -eq 0 ]; then
+  log "No items in queue to clean up..."
+  exit
+fi
+
 for queueId in $(echo $arrQueueIds); do
   arrQueueItemData="$(echo "$arrQueueData" | jq -r "select(.id==$queueId)")"
   arrQueueItemTitle="$(echo "$arrQueueItemData" | jq -r .title)"
-  log "Removing Failed Queue ID: $queueId ($arrQueueItemTitle) from Radarr Queue..."
+  log "Removing Failed Queue Item ID: $queueId ($arrQueueItemTitle) from Radarr..."
   curl -sX DELETE "$arrUrl/api/v3/queue/$queueId?removeFromClient=true&blocklist=true&apikey=${arrApiKey}"
 done
-
+a
 exit
