@@ -3,8 +3,8 @@ scriptVersion="1.0.001"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
-  if [ "$arrUrlBase" = "null" ]; then
-    arrlBase=""
+  if [ "$arrUrlBase" == "null" ]; then
+    arrUrlBase=""
   else
     arrUrlBase="/$(echo "$arrUrlBase" | sed "s/\///g")"
   fi
@@ -30,7 +30,7 @@ log "Getting Trash Guide Recommended Movie Naming..."
 movieNaming="$(curl -s https://raw.githubusercontent.com/TRaSH-/Guides/master/docs/Radarr/Radarr-recommended-naming-scheme.md | grep "{Movie Clean" | head -n 1)"
 
 log "Updating Radarr Moving Naming..."
-curl "$arrUrl/api/v3/config/naming" -X PUT -H "Content-Type: application/json" -H "X-Api-Key: $arrApiKey" --data-raw "{
+updateArr=$(curl -s "$arrUrl/api/v3/config/naming" -X PUT -H "Content-Type: application/json" -H "X-Api-Key: $arrApiKey" --data-raw "{
     \"renameMovies\":true,
     \"replaceIllegalCharacters\":true,
     \"colonReplacementFormat\":\"delete\",
@@ -39,7 +39,7 @@ curl "$arrUrl/api/v3/config/naming" -X PUT -H "Content-Type: application/json" -
     \"includeQuality\":false,
     \"replaceSpaces\":false,
     \"id\":1
-    }"
+    }")
     
 log "Complete"
 exit
