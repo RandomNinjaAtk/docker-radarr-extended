@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv bash
+if [ "$enableAutoConfig" != "true" ]; then
+	echo "AutoConfig Script disabled, enable by setting parameter: enableAutoConfig=true"
+	sleep infinity
+else
+	echo "Waiting for Radarr to startup..."
+	sleep 2m
+fi
+
+echo "Starting Script...."
+bash /config/extended/scripts/AutoConfig.bash
+exit $?
