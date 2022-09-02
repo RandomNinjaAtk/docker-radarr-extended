@@ -12,11 +12,11 @@ if [ -f "/config/logs/PlexNotify.txt" ]; then
 fi
 
 exec &>> "/config/logs/PlexNotify.txt"
-chmod 777 "/config/logs/PlexNotify.txt"
+chmod 666 "/config/logs/PlexNotify.txt"
 
 log () {
     m_time=`date "+%F %T"`
-    echo $m_time" :: "$1
+    echo $m_time" :: PlexNotify :: "$1
 }
 
 if [ "$arrEventType" == "Test" ]; then
