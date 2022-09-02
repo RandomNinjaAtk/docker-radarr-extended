@@ -13,8 +13,8 @@ for (( ; ; )); do
 	   
 	bash /config/extended/scripts/QueueCleaner.bash
 	
-	echo "Script sleeping for $scriptInterval..."
-	sleep 15m
+	echo "Script sleeping for 5 minutes..."
+	sleep 5m
 done
 
 exit $?
