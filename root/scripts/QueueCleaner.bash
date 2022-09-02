@@ -3,8 +3,8 @@ scriptVersion="1.0.002"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
-  if [ "$arrUrlBase" = "null" ]; then
-    arrlBase=""
+  if [ "$arrUrlBase" == "null" ]; then
+    arrUrlBase=""
   else
     arrUrlBase="/$(echo "$arrUrlBase" | sed "s/\///g")"
   fi
