@@ -39,8 +39,9 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-v /config` | Database and Radarr configs |
 | `-e PUID=1000` | for UserID - see below for explanation |
 | `-e PGID=1000` | for GroupID - see below for explanation |
-| `-e TZ=Europe/London` | Specify a timezone to use EG Europe/London, this is required for Radarr |
+| `-e TZ=America/New_York` | Specify a timezone to use EG Europe/London, this is required for Radarr |
 | `-e UMASK_SET=022` | control permissions of files and directories created by Radarr |
+| `-e enableAutoConfig=true` | true = enabled :: Enables AutoConfig script to run after startup |
 | `-e enableRecyclarr=true` | true = enabled :: Enables Recyclarr to run every 4 hours |
 | `-e enableQueueCleaner=true` | true = enabled :: Enables QueueCleaner Script that automatically removes stuck downloads that cannot be automatically imported on a 15 minute interval |
 | `-e plexUrl=http://x.x.x.x:32400` | ONLY used if PlexNotify.bash is used...|
