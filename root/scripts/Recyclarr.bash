@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 scriptVersion="1.0.002"
 
-iif [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
+if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
-  if [ "$arrUrlBase" = "null" ]; then
-    arrlBase=""
+  if [ "$arrUrlBase" == "null" ]; then
+    arrUrlBase=""
   else
     arrUrlBase="/$(echo "$arrUrlBase" | sed "s/\///g")"
   fi
