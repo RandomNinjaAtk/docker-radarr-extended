@@ -7,6 +7,7 @@ else
 	sleep 2m
 fi
 
-echo "Starting Script...."
+echo "Starting AutoConfig.bash Script...."
 bash /config/extended/scripts/AutoConfig.bash
+sleep infinity
 exit $?
