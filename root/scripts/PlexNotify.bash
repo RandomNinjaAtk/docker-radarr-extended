@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-version=1.0.001
+version=1.0.002
 
 notfidedBy="Radarr"
 arrRootFolderPath="$(dirname "$radarr_movie_path")"
 arrFolderPath="$radarr_movie_path"
 arrEventType="$radarr_eventtype"
 movieExtrasPath="$1"
+enableExtras=false
 
 # auto-clean up log file to reduce space usage
 if [ -f "/config/logs/PlexNotify.txt" ]; then
@@ -47,7 +48,12 @@ fi
 
 plexLibraries="$(curl -s "$plexUrl/library/sections?X-Plex-Token=$plexToken")"
 plexLibraryData=$(echo "$plexLibraries" | xq ".MediaContainer.Directory")
-plexKeys=($(echo "$plexLibraries" | xq ".MediaContainer.Directory" | jq -r '."@key"'))
+if echo "$plexLibraryData" | grep "^\[" | read; then
+	plexLibraryData=$(echo "$plexLibraries" | xq ".MediaContainer.Directory[]")
+	plexKeys=($(echo "$plexLibraries" | xq ".MediaContainer.Directory[]" | jq -r '."@key"'))
+else
+	plexKeys=($(echo "$plexLibraries" | xq ".MediaContainer.Directory" | jq -r '."@key"'))
+fi
 
 if echo "$plexLibraryData" | grep "\"@path\": \"$arrRootFolderPath" | read; then
 	sleep 0.01
@@ -59,11 +65,12 @@ fi
 
 for key in ${!plexKeys[@]}; do
 	plexKey="${plexKeys[$key]}"
-	if echo "$plexLibraryData" | grep "\"@path\": \"$arrRootFolderPath" | read; then
+	plexKeyData="$(echo "$plexLibraryData" | jq -r "select(.\"@key\"==\"$plexKey\")")"
+	if echo "$plexKeyData" | grep "\"@path\": \"$arrRootFolderPath" | read; then
 		plexFolderEncoded="$(jq -R -r @uri <<<"$arrFolderPath")"
 		curl -s "$plexUrl/library/sections/$plexKey/refresh?path=$plexFolderEncoded&X-Plex-Token=$plexToken"
 		log  "$notfidedBy :: Plex Scan notification sent! ($arrFolderPath)"
 	fi
 done
 
-exit 0
+exit
