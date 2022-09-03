@@ -187,4 +187,11 @@ for id in $(echo "$tmdbVideosListDataIds"); do
     fi
     
 done
+
+# Process item with PlexNotify.bash if plexToken is configured
+if [ ! -z "$plexToken" ]; then
+    log "Using PlexNotify.bash to update Plex...."
+    bash /config/extended/scripts/PlexNotify.bash "$itemPath"
+fi
+
 exit
