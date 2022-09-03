@@ -57,14 +57,6 @@ itemPath="$(echo "$arrItemData" | jq -r ".path")"
 itemTrailerId="$(echo "$arrItemData" | jq -r ".youTubeTrailerId")"
 tmdbId="$(echo "$arrItemData" | jq -r ".tmdbId")"
 
-echo "$arrItemData"
-echo "================"
-echo $itemHasFile
-echo "$itemPath"
-echo "$itemTrailerId"
-echo "$itemTrailerurl"
-echo "$tmdbId"
-
 if [ ! -d "$itemPath" ]; then
     log "$itemTitle :: ERROR: Item Path does not exist ($itemPath), Skipping..."
     exit
@@ -73,8 +65,6 @@ if [ -z "$itemTrailerId" ]; then
     log "$itemTitle :: ERROR: No Trailer ID Found, Skipping..."
     exit
 fi
-tmdbVideosListData=$(curl -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?api_key=$tmdbApiKey&language=jp" | jq -r '.results[] | select(.site=="YouTube")')
-echo "$tmdbVideosListData"
 
 if [ ! -f "$itemPath/Trailer-trailer.mkv" ]; then
     if [ ! -z "$cookiesFile" ]; then
@@ -88,12 +78,12 @@ if [ "$trailerSingle" == "true" ]; then
     exit
 fi
 
+tmdbVideosListData=$(curl -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?api_key=$tmdbApiKey" | jq -r '.results[] | select(.site=="YouTube")')
 
 IFS=',' read -r -a filters <<< "$trailerLanguages"
 for filter in "${filters[@]}"
 do
 	log "$itemTitle :: Searching for \"$filter\" extras..."
-	tmdbVideosListData=$(curl -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?api_key=$tmdbApiKey&language=$filter" | jq -r '.results[] | select(.site=="YouTube")')
 	if [ "$trailerExtrasType" == "all" ]; then
 		tmdbVideosListDataIds=$(echo "$tmdbVideosListData" | jq -r "select(.iso_639_1==\"$filter\") | .id")
         tmdbVideosListDataIdsCount=$(echo "$tmdbVideosListData" | jq -r "select(.iso_639_1==\"$filter\") | .id" | wc -l)
@@ -108,8 +98,6 @@ do
 		break
 	fi
 done
-
-echo "$tmdbVideosListDataIdsCount"
 
 log "$itemTitle :: $tmdbVideosListDataIdsCount Extras Found!"
 i=0
