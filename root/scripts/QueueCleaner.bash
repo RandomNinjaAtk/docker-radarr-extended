@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.003"
+scriptVersion="1.0.004"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -40,5 +40,6 @@ for queueId in $(echo $arrQueueIds); do
   log "Removing Failed Queue Item ID: $queueId ($arrQueueItemTitle) from Radarr..."
   curl -sX DELETE "$arrUrl/api/v3/queue/$queueId?removeFromClient=true&blocklist=true&apikey=${arrApiKey}"
 done
-a
+
+
 exit
