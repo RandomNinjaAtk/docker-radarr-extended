@@ -11,7 +11,7 @@ tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
 #extrasOfficialOnly=true
 #extrasKodiCompatibility=true
 #extrasSingle=false
-#enableExtras=false
+#enableExtras=true
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -180,10 +180,23 @@ for id in $(echo "$tmdbVideosListDataIds"); do
     else
         yt-dlp -o "$itemPath/$tmdbExtraTitleClean" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey" &>/dev/null
     fi
-    log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey) :: Compete"
     if [ -f "$finalPath/$tmdbExtraTitleClean.mkv" ]; then
+        log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey) :: Compete"
         chmod 666 "$finalPath/$tmdbExtraTitleClean.mkv"
         chown abc:abc "$finalPath/$tmdbExtraTitleClean.mkv"
+    else
+        log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey) :: ERROR :: Download Failed"
+        continue
+    fi
+
+    if python3 /usr/local/sma/manual.py --config "/sma.ini" -i "$finalPath/$tmdbExtraTitleClean.mkv" -nt &>/dev/null; then
+        sleep 0.01
+        log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle :: Processed with SMA..."
+        rm  /usr/local/sma/config/*log*
+    else
+        log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle :: ERROR :: SMA Processing Error"
+        rm "$finalPath/$tmdbExtraTitleClean.mkv"
+        log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle :: INFO: deleted: $finalPath/$tmdbExtraTitleClean.mkv"
     fi
     
 done
