@@ -18,11 +18,11 @@ RUN \
 		libc-dev \
 		py3-pip \
 		gcc \
-		ffmpeg && \
+		ffmpeg \
+		yt-dlp && \
 	echo "************ install python packages ************" && \
 	pip install --upgrade --no-cache-dir -U \
-		yq \
-		yt-dlp && \
+		yq && \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
 	mkdir -p ${SMA_PATH} && \
