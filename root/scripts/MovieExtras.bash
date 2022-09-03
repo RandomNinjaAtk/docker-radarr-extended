@@ -5,12 +5,13 @@ arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
 
 # Debugging
-arrItemId=11677
-trailerLanguages=en
-trailerExtrasType=all
-trailerOfficialOnly=true
-trailerKodiCompatibility=true
-trailerSingle=false
+#arrItemId=11677
+#extrasLanguages=en
+#extrasType=all
+#extrasOfficialOnly=true
+#extrasKodiCompatibility=true
+#extrasSingle=false
+#enableExtras=false
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -34,13 +35,19 @@ if [ "$arrEventType" == "Test" ]; then
 	exit 0	
 fi
 
-#exec &>> "/config/logs/MovieExtras.txt"
-#chmod 666 "/config/logs/MovieExtras.txt"
+exec &>> "/config/logs/MovieExtras.txt"
+chmod 666 "/config/logs/MovieExtras.txt"
 
 log () {
   m_time=`date "+%F %T"`
   echo $m_time" :: MovieExtras :: "$1
 }
+
+if [ "$enableExtras" != "true" ]; then
+    log "Script disabled, exiting..."
+    log "Enable by setting enableExtras=true"
+    exit
+fi
 
 if find /config -type f -name "cookies.txt" | read; then
     cookiesFile="$(find /config -type f -iname "cookies.txt" | head -n1)"
@@ -64,28 +71,28 @@ if [ ! -d "$itemPath" ]; then
     exit
 fi
 
-if [ "$trailerSingle" == "true" ]; then
-    if [ "$trailerKodiCompatibility" == "true" ] ; then
-        trailerFileName="movie-trailer"
+if [ "$extrasSingle" == "true" ]; then
+    if [ "$extrasKodiCompatibility" == "true" ] ; then
+        extrasFileName="movie-trailer"
     else
-        trailerFileName="Trailer-trailer"
+        extrasFileName="Trailer-trailer"
     fi
 
     if [ ! -z "$itemTrailerId" ]; then
-        if [ ! -f "$itemPath/$trailerFileName.mkv" ]; then
+        if [ ! -f "$itemPath/$extrasFileName.mkv" ]; then
             if [ ! -z "$cookiesFile" ]; then
-                yt-dlp --cookies "$cookiesFile" -o "$itemPath/$trailerFileName" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
+                yt-dlp --cookies "$cookiesFile" -o "$itemPath/$extrasFileName" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
             else
-                yt-dlp -o "$itemPath/Trailer-trailer" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
+                yt-dlp -o "$itemPath/Trailer-trailer" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
             fi
         fi
-        if [ -f "$itemPath/$trailerFileName.mkv" ]; then
-            chmod 666 "$itemPath/$trailerFileName.mkv"
-            chown abc:abc "$itemPath/$trailerFileName.mkv"
+        if [ -f "$itemPath/$extrasFileName.mkv" ]; then
+            chmod 666 "$itemPath/$extrasFileName.mkv"
+            chown abc:abc "$itemPath/$extrasFileName.mkv"
         fi
     fi
 
-    if [ ! -f "$itemPath/$trailerFileName.mkv" ]; then
+    if [ ! -f "$itemPath/$extrasFileName.mkv" ]; then
         log "$itemTitle :: ERROR :: No Trailer ID Found, Skipping..."
     else
         log "$itemTitle :: Trailer already downloaded..."
@@ -95,11 +102,11 @@ fi
 
 tmdbVideosListData=$(curl -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?api_key=$tmdbApiKey" | jq -r '.results[] | select(.site=="YouTube")')
 
-IFS=',' read -r -a filters <<< "$trailerLanguages"
+IFS=',' read -r -a filters <<< "$extrasLanguages"
 for filter in "${filters[@]}"
 do
     log "$itemTitle :: Searching for \"$filter\" extras..."
-    if [ "$trailerExtrasType" == "all" ]; then
+    if [ "$extrasType" == "all" ]; then
         tmdbVideosListDataIds=$(echo "$tmdbVideosListData" | jq -r "select(.iso_639_1==\"$filter\") | .id")
         tmdbVideosListDataIdsCount=$(echo "$tmdbVideosListData" | jq -r "select(.iso_639_1==\"$filter\") | .id" | wc -l)
     else
@@ -130,8 +137,8 @@ for id in $(echo "$tmdbVideosListDataIds"); do
     tmdbExtraType="$(echo "$tmdbExtraData" | jq -r .type)"
     tmdbExtraOfficial="$(echo "$tmdbExtraData" | jq -r .official)"
 
-    if [ "$trailerOfficialOnly" != "$tmdbExtraOfficial" ]; then
-        log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: Not official, skipping..."
+    if [ "$extrasOfficialOnly" != "$tmdbExtraOfficial" ]; then
+        log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: Not official, skipping..."
         continue
     fi
 
@@ -142,7 +149,7 @@ for id in $(echo "$tmdbVideosListDataIds"); do
     elif [ "$tmdbExtraType" == "Behind the Scenes" ]; then
         extraFolderName="behind the scenes"
     else
-        log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: ERROR :: $tmdbExtraType :: Extra Type Not found"
+        log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: ERROR :: Extra Type Not found"
         if [ -f "/config/logs/MovieExtras-InvalidType.txt" ]; then
             if cat "/config/logs/MovieExtras-InvalidType.txt" | grep "$tmdbExtraType" | read; then
                 continue
@@ -169,11 +176,11 @@ for id in $(echo "$tmdbVideosListDataIds"); do
 
     log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey) :: Downloading..."
     if [ ! -z "$cookiesFile" ]; then
-        yt-dlp --cookies "$cookiesFile" -o "$finalPath/$tmdbExtraTitleClean" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey" &>/dev/null
+        yt-dlp --cookies "$cookiesFile" -o "$finalPath/$tmdbExtraTitleClean" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey" &>/dev/null
     else
-        yt-dlp -o "$itemPath/$tmdbExtraTitleClean" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey" &>/dev/null
+        yt-dlp -o "$itemPath/$tmdbExtraTitleClean" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey" &>/dev/null
     fi
-
+    log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey) :: Compete"
     if [ -f "$finalPath/$tmdbExtraTitleClean.mkv" ]; then
         chmod 666 "$finalPath/$tmdbExtraTitleClean.mkv"
         chown abc:abc "$finalPath/$tmdbExtraTitleClean.mkv"
