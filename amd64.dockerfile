@@ -16,10 +16,13 @@ RUN \
 		mkvtoolnix \
 		python3 \
 		py3-pip \
+		libc-dev \
+		gcc \
 		ffmpeg && \
 	echo "************ install python packages ************" && \
 	python3 -m pip install --no-cache-dir -U \
-		yq && \
+		yq \
+		yt-dlp && \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
 	mkdir -p ${SMA_PATH} && \
