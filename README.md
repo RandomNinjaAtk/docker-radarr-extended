@@ -44,6 +44,12 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e enableAutoConfig=true` | true = enabled :: Enables AutoConfig script to run after startup |
 | `-e enableRecyclarr=true` | true = enabled :: Enables Recyclarr to run every 4 hours |
 | `-e enableQueueCleaner=true` | true = enabled :: Enables QueueCleaner Script that automatically removes stuck downloads that cannot be automatically imported on a 15 minute interval |
+| `-e enableExtras=true` | true = enabled :: Enables MovieExtras script to run during download import process |
+| `-e extrasType=all` | all or trailers :: all downloads all available videos (trailers, clips, featurette, etc...) :: trailers only downloads trailers |
+| `-e extrasLanguages=en` | Set the primary desired language, if not found, fallback to next langauge in the list... (this is a "," separated list of ISO 639-1 language codes) |
+| `-e extrasOfficialOnly=true` | true = enabled :: Skips extras that are not considered/marked as Official from TMDB site. |
+| `-e extrasSingle=false` | true = enabled :: Only downloads the first available trailer, does not download any other extras |
+| `-e extrasKodiCompatibility=false` | true = enabled :: Only works if "extrasSingle" is set to true, names trailer in a kodi compatible naming scheme (movie-trailer.mkv) |
 | `-e plexUrl=http://x.x.x.x:32400` | ONLY used if PlexNotify.bash is used...|
 | `-e plexToken=` | ONLY used if PlexNotify.bash is used... |
 
