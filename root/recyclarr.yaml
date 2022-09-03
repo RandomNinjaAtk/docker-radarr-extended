@@ -27,12 +27,6 @@ radarr:
       # A list of custom formats to sync to Radarr. Must match the "trash_id" in the guide JSON.
       - trash_ids:
           - b124be9b146540f8e62f98fe32e49a2a # 1.0 Mono
-          - 89dac1be53d5268a7e10a19d3c896826 # 2.0 Stereo
-          - 205125755c411c3b8622ca3175d27b37 # 3.0 Sound
-          - 373b58bd188fc00c817bd8c7470ea285 # 4.0 Sound
-          - b8cd450cbfa689c0259a01d9e29ba3d6 # 3D
-          - fb392fb0d61a010ae38e49ceaa24a1ef # 2160p
-          - eca37840c13c6ef2dd0262b141a5482f # 4K Remaster
           - 820b09bb9acbfde9c35c71e0e565dad8 # 1080p
           - 77ff61788dfe1097194fd8743d7b4524 # 5.1 Surround
           - 6fd7b090c3f7317502ab3b63cc7f51e3 # 6.1 Surround
@@ -41,7 +35,23 @@ radarr:
           - f2aacebe2c932337fe352fa6e42c1611 # 9.1 Surround
           - 240770601cc226190c367ef59aba7463 # AAC
           - b3b3a6ac74ecbd56bcdbefa4799fb9df # AMZN
+          - fb3ccc5d5cc8f77c9055d4cb4561dded # Anime BD Tier 01 (Top SeaDex Muxers)
+          - 66926c8fa9312bc74ab71bf69aae4f4a # Anime BD Tier 02 (SeaDex Muxers)
+          - fa857662bad28d5ff21a6e611869a0ff # Anime BD Tier 03 (SeaDex Muxers)
+          - f262f1299d99b1a2263375e8fa2ddbb3 # Anime BD Tier 04 (SeaDex Muxers)
+          - ca864ed93c7b431150cc6748dc34875d # Anime BD Tier 05 (Remuxes)
+          - 9dce189b960fddf47891b7484ee886ca # Anime BD Tier 06 (FanSubs)
+          - 1ef101b3a82646b40e0cab7fc92cd896 # Anime BD Tier 07 (P2P/Scene)
+          - 6115ccd6640b978234cc47f2c1f2cadc # Anime BD Tier 08 (Mini Encodes)
           - 4a3b087eea2ce012fcc1ce319259a3be # Anime Dual Audio
+          - b0fdc5897f68c9a68c70c25169f77447 # Anime LQ Groups
+          - 06b6542a47037d1e33b15aa3677c2365 # Anime Raws
+          - 8167cffba4febfb9a6988ef24f274e7e # Anime Web Tier 01 (Muxers)
+          - 8526c54e36b4962d340fce52ef030e76 # Anime Web Tier 02 (Top FanSubs)
+          - 5b1a5d3df27396373b4ce236fc337eaa # Anime Web Tier 03 (SubsPlease)
+          - 9edaeee9ea3bcd585da9b7c0ac3fc54f # Anime Web Tier 04 (Official Subs)
+          - 22d953bbe897857b517928f3652b8dd3 # Anime Web Tier 05 (FanSubs)
+          - a786fbc0eae05afe3bb51aee3c83a9d4 # Anime Web Tier 06 (FanSubs)
           - 3472d276482257d68f7836a55ca24877 # APTV
           - 417804f7f2c4308c1f4c5d380d4c4475 # ATMOS (undefined)
           - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
@@ -57,6 +67,7 @@ radarr:
           - dcf3ec6938fa32445f590a4da84256cd # DTS-HD MA
           - 2f22d89048b01681dde8afe203bf2e95 # DTS X
           - 1c1a4c5e823891c75bc50380a6866f73 # DTS
+          - b23eae459cc960816f2d6ba84af45055 # Dubs Only
           - 9de657fd3d327ecf144ec73dfe3a3e9a # Dutch Groups
           - e23edd2482476e595fb990b12e7c609c # DV HDR10
           - 55d53828b9d81cbe20b02efd00aa0efd # DV HLG
@@ -115,13 +126,26 @@ radarr:
           - 65be7ce5ec4c31e684c7b8368b8bd6bb # UHD (SPHD)
           - ffebc267e9c98d3d383f37b238550079 # UHD (W4NK3R)
           - ac49fdbf6a662d380556f40ff4856f29 # UHD (WEBDV)
+          - c259005cbaeb5ab44c06eddb4751e70c # v0
+          - 5f400539421b8fcf71d51e6384434573 # v1
+          - 3df5e6dfef4b09bb6002f732bed5b774 # v2
+          - db92c27ba606996b146b57fbe6d09186 # v3
+          - d4e5e842fad129a3c097bdb2d20d31a0 # v4
+          - 60f6d50cbd3cfc3e9a8c00e3a30c3114 # VRV
           - c20f169ef63c5f40c2def54abaf4438e # WEB Tier 01
           - 403816d65392c79236dcb6dd591aeda4 # WEB Tier 02
           - af94e0fe497124d1f9ce732069ec8c3b # WEB Tier 03
           - 2899d84dc9372de3408e6d8cc18e9666 # x264
-          - dc98083864ea246d05a42df0d05f81cc # x265 (720/1080p)
+          - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
           - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
           - 9170d55c319f4fe40da8711ba9d8050d # x265
+          - a5d148168c4506b55cf53984107c396e # 10bit
+          - 89dac1be53d5268a7e10a19d3c896826 # 2.0 Stereo
+          - fb392fb0d61a010ae38e49ceaa24a1ef # 2160p
+          - 205125755c411c3b8622ca3175d27b37 # 3.0 Sound
+          - b8cd450cbfa689c0259a01d9e29ba3d6 # 3D
+          - 373b58bd188fc00c817bd8c7470ea285 # 4.0 Sound
+          - eca37840c13c6ef2dd0262b141a5482f # 4K Remaster
 
         # Uncomment the below properties to specify one or more quality profiles that should be
         # updated with scores from the guide for each custom format. Without this, custom formats
