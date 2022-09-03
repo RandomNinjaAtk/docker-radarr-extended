@@ -56,34 +56,3 @@ Container images are configured using parameters passed at runtime (such as thos
 ## Application Setup
 
 Access the webui at `<your-ip>:7878`, for more information check out [Radarr](https://radarr.video/).
-
-# Radarr Configuration
-
-### Enable completed download handling
-* Settings -> Download Client -> Completed Download Handling -> Enable: Yes
-
-### Add Custom Script
-* Settings -> Connect -> + Add -> custom Script
-
-| Parameter | Value |
-| --- | --- |
-| On Grab | No |
-| On Import | Yes |
-| On Upgrade | Yes |
-| On Rename | No |
-| On Health Issue | No |
-| Tags | leave blank |
-| Path | `/scripts/postRadarr.sh` |
-
-# SMA Information:
-
-### Config Information
-Located at `/config/sma/autoProcess.ini` inside the container
-
-### Log Information
-Located at `/config/sma/sma.log` inside the container
-
-### Hardware Acceleration
-
-1. Set "video codec" to: `h264vaapi` or `h265vaapi` in "/config/sma/autoProcess.ini"
-1. Make sure you have passed the correct device to the container, or these will not work...
