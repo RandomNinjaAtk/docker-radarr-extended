@@ -14,13 +14,13 @@ RUN \
 		git \
 		wget \
 		mkvtoolnix \
-		python3 \
-		py3-pip \
+		python3-dev \
 		libc-dev \
+		py3-pip \
 		gcc \
 		ffmpeg && \
 	echo "************ install python packages ************" && \
-	python3 -m pip install --no-cache-dir -U \
+	pip install --upgrade --no-cache-dir \
 		yq \
 		yt-dlp && \
 	echo "************ setup SMA ************" && \
