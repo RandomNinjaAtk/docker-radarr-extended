@@ -42,14 +42,13 @@ log () {
 }
 
 if find /config -type f -name "cookies.txt" | read; then
-        cookiesFile="$(find /config -type f -iname "cookies.txt" | head -n1)"
-        log "Cookies File Found!"
-    else
-        log "Cookies File Not Found!"
-        cookiesFile=""
-    fi
+    cookiesFile="$(find /config -type f -iname "cookies.txt" | head -n1)"
+    log "Cookies File Found!"
+else
+    log "Cookies File Not Found!"
+    cookiesFile=""
+fi
 
-pip install yt-dlp --upgrade --no-cache-dir &>/dev/null
 arrItemData=$(curl -s "$arrUrl/api/v3/movie/$arrItemId?apikey=$arrApiKey")
 itemTitle=$(echo "$arrItemData" | jq -r .title)
 itemHasFile=$(echo "$arrItemData" | jq -r .hasFile)
@@ -61,20 +60,21 @@ if [ ! -d "$itemPath" ]; then
     log "$itemTitle :: ERROR: Item Path does not exist ($itemPath), Skipping..."
     exit
 fi
-if [ -z "$itemTrailerId" ]; then
-    log "$itemTitle :: ERROR: No Trailer ID Found, Skipping..."
-    exit
-fi
 
-if [ ! -f "$itemPath/Trailer-trailer.mkv" ]; then
-    if [ ! -z "$cookiesFile" ]; then
-        yt-dlp --cookies "$cookiesFile" -o "$itemPath/Trailer-trailer" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
-    else
-        yt-dlp -o "$itemPath/Trailer-trailer" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
+if [ ! -z "$itemTrailerId" ]; then
+    if [ ! -f "$itemPath/Trailer-trailer.mkv" ]; then
+        if [ ! -z "$cookiesFile" ]; then
+            yt-dlp --cookies "$cookiesFile" -o "$itemPath/Trailer-trailer" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
+        else
+            yt-dlp -o "$itemPath/Trailer-trailer" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
+        fi
     fi
 fi
 
 if [ "$trailerSingle" == "true" ]; then
+    if [ ! -f "$itemPath/Trailer-trailer.mkv" ]; then
+        log "$itemTitle :: ERROR :: No Trailer ID Found, Skipping..."
+    fi
     exit
 fi
 
@@ -83,21 +83,26 @@ tmdbVideosListData=$(curl -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?
 IFS=',' read -r -a filters <<< "$trailerLanguages"
 for filter in "${filters[@]}"
 do
-	log "$itemTitle :: Searching for \"$filter\" extras..."
-	if [ "$trailerExtrasType" == "all" ]; then
-		tmdbVideosListDataIds=$(echo "$tmdbVideosListData" | jq -r "select(.iso_639_1==\"$filter\") | .id")
+    log "$itemTitle :: Searching for \"$filter\" extras..."
+    if [ "$trailerExtrasType" == "all" ]; then
+        tmdbVideosListDataIds=$(echo "$tmdbVideosListData" | jq -r "select(.iso_639_1==\"$filter\") | .id")
         tmdbVideosListDataIdsCount=$(echo "$tmdbVideosListData" | jq -r "select(.iso_639_1==\"$filter\") | .id" | wc -l)
-	else
-		tmdbVideosListDataIds=$(echo "$tmdbVideosListData" | jq -r "select(.iso_639_1==\"$filter\" and .type==\"Trailer\") | .id")
+    else
+        tmdbVideosListDataIds=$(echo "$tmdbVideosListData" | jq -r "select(.iso_639_1==\"$filter\" and .type==\"Trailer\") | .id")
         tmdbVideosListDataIdsCount=$(echo "$tmdbVideosListData" | jq -r "select(.iso_639_1==\"$filter\" and .type==\"Trailer\") | .id" | wc -l)
-	fi
-	if [ -z "$tmdbVideosListDataIds" ]; then
-		log "$itemTitle :: None found..."
-		continue
-	else
-		break
-	fi
+    fi
+    if [ -z "$tmdbVideosListDataIds" ]; then
+        log "$itemTitle :: None found..."
+        continue
+    else
+        break
+    fi
 done
+
+if [ $tmdbVideosListDataIdsCount -le 0 ]; then
+    log "$itemTitle :: No Extras Found, skipping..."
+    exit
+fi
 
 log "$itemTitle :: $tmdbVideosListDataIdsCount Extras Found!"
 i=0
@@ -118,11 +123,11 @@ for id in $(echo "$tmdbVideosListDataIds"); do
 
     if [ "$tmdbExtraType" == "Featurette" ]; then
         fileSuffix=featurette
-	elif [ "$tmdbExtraType" == "Trailer" ]; then
+    elif [ "$tmdbExtraType" == "Trailer" ]; then
         fileSuffix=trailer
-	elif [ "$themoviedbvidetype" == "Behind the Scenes" ]; then
+    elif [ "$themoviedbvidetype" == "Behind the Scenes" ]; then
         fileSuffix=behindthescenes
-	elif [ "$themoviedbvidetype" == "Clip" ]; then
+    elif [ "$themoviedbvidetype" == "Clip" ]; then
         fileSuffix=clip
     elif [ "$themoviedbvidetype" == "Bloopers" ]; then
         fileSuffix=scene
