@@ -12,6 +12,17 @@
 This containers base image is provided by: [linuxserver/radarr](https://github.com/linuxserver/docker-radarr)
 
 
+## Features
+* Downloading **Movie Trailers** and **Extras** using online sources for use in popular applications (Plex/Kodi/Emby/Jellyfin): 
+  * Connects to Radarr to automatically download trailers for Movies in your existing library
+  * Downloads videos using yt-dlp automatically
+  * Names videos correctly to match Plex/Emby naming convention (Emby not tested)
+  * Embeds relevant metadata into each video
+  
+### Plex Example
+![](https://raw.githubusercontent.com/RandomNinjaAtk/docker-amtd/master/.github/amvtd-plex-example.jpg)
+
+
 ## Supported Architectures
 
 The architectures supported by this image are:
