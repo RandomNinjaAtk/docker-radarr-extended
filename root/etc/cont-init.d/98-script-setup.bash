@@ -41,6 +41,7 @@ chmod 777 /config/extended/logs
 chmod 777 /config/extended/configs
 chmod -R 777 /config/extended/scripts
 chown -R abc:abc /config/extended
+chmod 777 -R /usr/local/sma
 
 
 echo "Complete..."
