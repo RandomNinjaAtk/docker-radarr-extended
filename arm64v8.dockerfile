@@ -26,6 +26,7 @@ RUN \
 		mkvtoolnix \
 		python3 \
 		py3-pip \
+		yt-dlp \
 		ffmpeg && \
 	echo "************ install python packages ************" && \
 	python3 -m pip install --no-cache-dir -U \
