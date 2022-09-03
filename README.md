@@ -38,7 +38,7 @@ The architectures supported by this image are:
 
 | Tag | Description |
 | :----: | --- |
-| develop | Radarr (develop) + SMA + ffmpeg |
+| develop | Radarr (develop) + Extended Scripts |
 
 ## Parameters
 
