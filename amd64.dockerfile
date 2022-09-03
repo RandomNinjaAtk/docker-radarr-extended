@@ -7,7 +7,7 @@ ENV SMA_APP Radarr
 
 RUN \
 	echo "************ install packages ************" && \
-	apk add  -U --update --no-cache \
+	apk add -U --update --no-cache \
 		flac \
 		opus-tools \
 		jq \
@@ -20,7 +20,7 @@ RUN \
 		gcc \
 		ffmpeg && \
 	echo "************ install python packages ************" && \
-	pip install --upgrade --no-cache-dir \
+	pip install --upgrade --no-cache-dir -U \
 		yq \
 		yt-dlp && \
 	echo "************ setup SMA ************" && \
