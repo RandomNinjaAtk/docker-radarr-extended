@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-version=1.0.0
+version=1.0.001
 
 notfidedBy="Radarr"
 arrRootFolderPath="$(dirname "$radarr_movie_path")"
 arrFolderPath="$radarr_movie_path"
 arrEventType="$radarr_eventtype"
+movieExtrasPath="$1"
 
 # auto-clean up log file to reduce space usage
 if [ -f "/config/logs/PlexNotify.txt" ]; then
@@ -18,6 +19,13 @@ log () {
     m_time=`date "+%F %T"`
     echo $m_time" :: PlexNotify :: "$1
 }
+
+if [ "$enableExtras" == "true" ]; then
+    if [ -z "$movieExtrasPath" ]; then
+		log "MovieExtras script is enabled, skipping..."
+		exit
+	fi
+fi
 
 if [ "$arrEventType" == "Test" ]; then
 	log "$notfidedBy :: Tested Successfully"
