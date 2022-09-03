@@ -40,7 +40,7 @@ fi
 
 # update radarr
 log "Updating Radarr via Recyclarr"
-/recyclarr/recyclarr radarr -c /config/extended/configs/recyclarr.yaml --app-data /recylarr
+/recyclarr/recyclarr radarr -c /config/extended/configs/recyclarr.yaml --app-data /recyclarr-data
 log "Complete"
 
 exit
