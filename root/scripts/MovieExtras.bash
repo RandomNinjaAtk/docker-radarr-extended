@@ -9,6 +9,7 @@ tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
 #trailerLanguages=en
 #trailerExtrasType=all
 #trailerOfficialOnly=true
+#trailerSingle=true
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -54,7 +55,6 @@ itemTitle=$(echo "$arrItemData" | jq -r .title)
 itemHasFile=$(echo "$arrItemData" | jq -r .hasFile)
 itemPath="$(echo "$arrItemData" | jq -r ".path")"
 itemTrailerId="$(echo "$arrItemData" | jq -r ".youTubeTrailerId")"
-itemTrailerurl="https://www.youtube.com/watch?v=$itemTrailerId"
 tmdbId="$(echo "$arrItemData" | jq -r ".tmdbId")"
 
 echo "$arrItemData"
@@ -75,6 +75,19 @@ if [ -z "$itemTrailerId" ]; then
 fi
 tmdbVideosListData=$(curl -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?api_key=$tmdbApiKey&language=jp" | jq -r '.results[] | select(.site=="YouTube")')
 echo "$tmdbVideosListData"
+
+if [ ! -f "$itemPath/Trailer-trailer.mkv" ]; then
+    if [ ! -z "$cookiesFile" ]; then
+        yt-dlp --cookies "$cookiesFile" -o "$itemPath/Trailer-trailer" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
+    else
+        yt-dlp -o "$itemPath/Trailer-trailer" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
+    fi
+fi
+
+if [ "$trailerSingle" == "true" ]; then
+    exit
+fi
+
 
 IFS=',' read -r -a filters <<< "$trailerLanguages"
 for filter in "${filters[@]}"
@@ -123,10 +136,9 @@ for id in $(echo "$tmdbVideosListDataIds"); do
         fileSuffix=behindthescenes
 	elif [ "$themoviedbvidetype" == "Clip" ]; then
         fileSuffix=clip
-	elif [ "$themoviedbvidetype" == "Bloopers" ]; then
+    elif [ "$themoviedbvidetype" == "Bloopers" ]; then
         fileSuffix=scene
     fi
-    echo "$tmdbExtraTitleClean-$fileSuffix.mkv"
     log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey)"
     if [ ! -z "$cookiesFile" ]; then
         yt-dlp --cookies "$cookiesFile" -o "$itemPath/$tmdbExtraTitleClean-$fileSuffix" --write-sub --sub-lang $trailerLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey"
