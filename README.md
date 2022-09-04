@@ -22,9 +22,21 @@ This containers base image is provided by: [linuxserver/radarr](https://github.c
 * Downloading **Movie Trailers** and **Extras** using online sources for use in popular applications (Plex/Kodi/Emby/Jellyfin): 
   * Connects to Radarr to automatically download trailers for Movies in your existing library
   * Downloads videos using yt-dlp automatically
-  * Names videos correctly to match Plex/Emby naming convention (Emby not tested)
-  * Embeds relevant metadata into each video
+  * Names videos correctly to match Plex/Emby/Jellyfin naming convention
+* Auto Configure Radarr with optimized settings
+  * Optimized file/folder naming (based on trash guides)
+  * Congifures media management settings
+  * Configures metadata settings
+* Recyclarr built-in
+  * Auto configures Custom Formats
+  * Auto configures Custom Format Scores
+  * Auto configures optimzed quality definitions
+* Plex Notify Script
+  * Reduce Plex scanning by notifying Plex the exact folder to scan
+* Queue Cleaner Script
+  * Automatically removes downloads that have a "warning" status that will not auto-import into Radarr, which enables Radarr to automatically re-search for the the Title
   
+
 ### Plex Example
 ![](https://raw.githubusercontent.com/RandomNinjaAtk/docker-amtd/master/.github/amvtd-plex-example.jpg)
 
@@ -79,4 +91,5 @@ Access the webui at `<your-ip>:7878`, for more information check out [Radarr](ht
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 - [Radarr](https://radarr.video/)
 - [The Movie Database](https://www.themoviedb.org/)
+- [Recyclarr](https://github.com/recyclarr/recyclarr)
 - Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
