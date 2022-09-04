@@ -4,8 +4,6 @@
 [![Docker Stars](https://img.shields.io/docker/stars/randomninjaatk/radarr-extended?style=flat-square)](https://hub.docker.com/r/randomninjaatk/radarr-extended)
 [![Docker Hub](https://img.shields.io/badge/Open%20On-DockerHub-blue?style=flat-square)](https://hub.docker.com/r/randomninjaatk/radarr-extended)
 
-[Radarr](https://github.com/Radarr/Radarr) - A fork of Sonarr to work with movies à la Couchpotato.
-
 <table>
   <tr>
     <td><img src="https://raw.githubusercontent.com/RandomNinjaAtk/unraid-templates/master/randomninjaatk/img/radarr.png" width="200"></td>
@@ -14,6 +12,16 @@
   </tr>
  </table>
 
+[Radarr](https://github.com/Radarr/Radarr) - A fork of Sonarr to work with movies à la Couchpotato.
+ 
+### What is Radarr Extended:
+
+* Linuxserver.io Radarr docker container (develop tag)
+* Additional packages and scripts added to the container to provide additional functionality
+
+Radarr itself is not modified in any way, all changes that are pushed to Radarr via public Radarr API's. This is strictly Radarr Develop branch
+
+For more details, visit the [Wiki](https://github.com/RandomNinjaAtk/docker-radarr-extended/wiki)
 
 This containers base image is provided by: [linuxserver/radarr](https://github.com/linuxserver/docker-radarr)
 
@@ -35,6 +43,8 @@ This containers base image is provided by: [linuxserver/radarr](https://github.c
   * Reduce Plex scanning by notifying Plex the exact folder to scan
 * Queue Cleaner Script
   * Automatically removes downloads that have a "warning" status that will not auto-import into Radarr, which enables Radarr to automatically re-search for the the Title
+  
+For more details, visit the [Wiki](https://github.com/RandomNinjaAtk/docker-radarr-extended/wiki)
   
 
 ### Plex Example
@@ -89,6 +99,7 @@ Access the webui at `<your-ip>:7878`, for more information check out [Radarr](ht
 # Credits
 - [ffmpeg](https://ffmpeg.org/)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [linuxserver/radarr](https://github.com/linuxserver/docker-radarr) Base docker image
 - [Radarr](https://radarr.video/)
 - [The Movie Database](https://www.themoviedb.org/)
 - [Recyclarr](https://github.com/recyclarr/recyclarr)
