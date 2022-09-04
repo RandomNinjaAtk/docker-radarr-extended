@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
-version=1.0.002
+version=1.0.003
 
 notfidedBy="Radarr"
 arrRootFolderPath="$(dirname "$radarr_movie_path")"
 arrFolderPath="$radarr_movie_path"
 arrEventType="$radarr_eventtype"
 movieExtrasPath="$1"
-enableExtras=false
+
+# Debugging Settings
+#enableExtras=false
 
 # auto-clean up log file to reduce space usage
 if [ -f "/config/logs/PlexNotify.txt" ]; then
