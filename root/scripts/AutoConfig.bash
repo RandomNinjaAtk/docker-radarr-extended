@@ -57,7 +57,7 @@ updateArr=$(curl -s "$arrUrl/api/v3/config/mediamanagement" -X PUT -H "Content-T
   "pathsDefaultStatic":false,
   "setPermissionsLinux":true,
   "chmodFolder":"777",
-  "chownGroup":"666",
+  "chownGroup":"abc",
   "skipFreeSpaceCheckWhenImporting":false,
   "minimumFreeSpaceWhenImporting":100,
   "copyUsingHardlinks":true,
