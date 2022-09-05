@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.001"
+scriptVersion="1.0.002"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -25,6 +25,11 @@ if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrl="http://127.0.0.1:${arrPort}${arrUrlBase}"
 fi
 
+log () {
+  m_time=`date "+%F %T"`
+  echo $m_time" :: MovieExtras :: "$1
+}
+
 # auto-clean up log file to reduce space usage
 if [ -f "/config/logs/MovieExtras.txt" ]; then
 	find /config/logs -type f -name "MovieExtras.txt" -size +1024k -delete
@@ -37,11 +42,6 @@ fi
 
 exec &>> "/config/logs/MovieExtras.txt"
 chmod 666 "/config/logs/MovieExtras.txt"
-
-log () {
-  m_time=`date "+%F %T"`
-  echo $m_time" :: MovieExtras :: "$1
-}
 
 if [ "$enableExtras" != "true" ]; then
     log "Script disabled, exiting..."
