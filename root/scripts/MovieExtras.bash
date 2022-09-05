@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.002"
+scriptVersion="1.0.003"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -178,7 +178,7 @@ for id in $(echo "$tmdbVideosListDataIds"); do
     if [ ! -z "$cookiesFile" ]; then
         yt-dlp --cookies "$cookiesFile" -o "$finalPath/$tmdbExtraTitleClean" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey" &>/dev/null
     else
-        yt-dlp -o "$itemPath/$tmdbExtraTitleClean" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey" &>/dev/null
+        yt-dlp -o "$finalPath/$tmdbExtraTitleClean" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey" &>/dev/null
     fi
     if [ -f "$finalPath/$tmdbExtraTitleClean.mkv" ]; then
         log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey) :: Compete"
