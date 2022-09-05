@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.000"
+scriptVersion="1.0.002"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -40,7 +40,7 @@ fi
 
 # update radarr
 log "Updating Radarr via Recyclarr"
-/recyclarr/recyclarr sonarr -c /config/extended/configs/recyclarr.yaml --app-data /recyclarr-data
+/recyclarr/recyclarr radarr -c /config/extended/configs/recyclarr.yaml --app-data /recyclarr-data
 log "Complete"
 
 exit
