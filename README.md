@@ -42,7 +42,7 @@ This containers base image is provided by: [linuxserver/radarr](https://github.c
 * Plex Notify Script
   * Reduce Plex scanning by notifying Plex the exact folder to scan
 * Queue Cleaner Script
-  * Automatically removes downloads that have a "warning" status that will not auto-import into Radarr, which enables Radarr to automatically re-search for the the Title
+  * Automatically removes downloads that have a "warning" or "failed" status that will not auto-import into Radarr, which enables Radarr to automatically re-search for the Title
   
 For more details, visit the [Wiki](https://github.com/RandomNinjaAtk/docker-radarr-extended/wiki)
   
