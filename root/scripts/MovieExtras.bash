@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.003"
+scriptVersion="1.0.004"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -137,9 +137,11 @@ for id in $(echo "$tmdbVideosListDataIds"); do
     tmdbExtraType="$(echo "$tmdbExtraData" | jq -r .type)"
     tmdbExtraOfficial="$(echo "$tmdbExtraData" | jq -r .official)"
 
-    if [ "$extrasOfficialOnly" != "$tmdbExtraOfficial" ]; then
-        log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: Not official, skipping..."
-        continue
+    if [ "$tmdbExtraOfficial" != "true" ]; then
+        if [ "$extrasOfficialOnly" == "true" ]; then
+            log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: Not official, skipping..."
+            continue
+        fi
     fi
 
     if [ "$tmdbExtraType" == "Featurette" ]; then
