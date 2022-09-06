@@ -96,6 +96,66 @@ Container images are configured using parameters passed at runtime (such as thos
 
 Access the webui at `<your-ip>:7878`, for more information check out [Radarr](https://radarr.video/).
 
+## Docker Examples:
+These examples are untested, but should give work or give you a good starting point....
+
+### docker
+
+```
+docker create \
+  --name=radarr-extended \
+  -v /path/to/config/files:/config \
+  -p 7878:7878 \
+  -e TZ=America/New_York \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e enableAutoConfig=true \
+  -e enableRecyclarr=true \
+  -e enableQueueCleaner=true \
+  -e enableExtras=true \
+  -e extrasType=all \
+  -e extrasLanguages=en \
+  -e extrasOfficialOnly=false \
+  -e extrasSingle=false \
+  -e extrasKodiCompatibility=false \
+  -e plexUrl=http://x.x.x.x:32400 \
+  -e plexToken=Token_Goes_Here \
+  randomninjaatk/radarr-extended:latest
+```
+
+
+### docker-compose
+
+Compatible with docker-compose v2 schemas.
+
+```
+version: "2.1"
+services:
+  radarr-extended:
+    image: randomninjaatk/lidarr-radarr:latest
+    container_name: radarr-extended
+    volumes:
+      - /path/to/config/files:/config
+    environment:
+      - TZ=America/New_York
+      - PUID=1000
+      - PGID=1000
+      - enableAutoConfig=true
+      - enableRecyclarr=true
+      - enableQueueCleaner=true
+      - enableExtras=true
+      - extrasType=all
+      - extrasLanguages=en
+      - extrasOfficialOnly=false
+      - extrasSingle=false
+      - extrasKodiCompatibility=false
+      - plexUrl=http://x.x.x.x:32400
+      - plexToken=Token_Goes_Here
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+```
+
 # Credits
 - [ffmpeg](https://ffmpeg.org/)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
