@@ -97,7 +97,7 @@ Container images are configured using parameters passed at runtime (such as thos
 Access the webui at `<your-ip>:7878`, for more information check out [Radarr](https://radarr.video/).
 
 ## Docker Examples:
-These examples are untested, but should give work or give you a good starting point....
+These examples are untested, but should work or at least give you a good starting point....
 
 ### docker
 
