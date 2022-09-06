@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.005"
+scriptVersion="1.0.006"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -79,7 +79,7 @@ if [ "$extrasSingle" == "true" ]; then
     if [ "$extrasKodiCompatibility" == "true" ] ; then
         extrasFileName="movie-trailer"
     else
-        extrasFileName="Trailer-trailer"
+        extrasFileName="trailers/Trailer"
     fi
 
     if [ ! -z "$itemTrailerId" ]; then
@@ -87,7 +87,7 @@ if [ "$extrasSingle" == "true" ]; then
             if [ ! -z "$cookiesFile" ]; then
                 yt-dlp --cookies "$cookiesFile" -o "$itemPath/$extrasFileName" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
             else
-                yt-dlp -o "$itemPath/Trailer-trailer" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
+                yt-dlp -o "$itemPath/$extrasFileName" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
             fi
         fi
         if [ -f "$itemPath/$extrasFileName.mkv" ]; then
