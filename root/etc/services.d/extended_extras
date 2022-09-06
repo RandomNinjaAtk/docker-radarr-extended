@@ -1,0 +1,19 @@
+#!/usr/bin/with-contenv bash
+if [ "$enableExtras" != "true" ]; then
+	echo "MovieExtras disabled, enable by setting parameter: enableExtras=true"
+	sleep infinity
+else
+	echo "Waiting for Radarr to startup..."
+	sleep 2m
+fi
+
+echo "Starting Script...."
+for (( ; ; )); do
+	let i++
+	bash /config/extended/scripts/AutoExtras.bash
+	echo "Script sleeping for 6 hours..."
+	sleep 6h
+done
+
+
+exit $?
