@@ -132,7 +132,7 @@ Compatible with docker-compose v2 schemas.
 version: "2.1"
 services:
   radarr-extended:
-    image: randomninjaatk/lidarr-radarr:latest
+    image: randomninjaatk/radarr-extended:latest
     container_name: radarr-extended
     volumes:
       - /path/to/config/files:/config
