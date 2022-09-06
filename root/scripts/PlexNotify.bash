@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-version=1.0.003
+version="1.0.004"
 
 notfidedBy="Radarr"
 arrRootFolderPath="$(dirname "$radarr_movie_path")"
@@ -28,6 +28,12 @@ if [ "$enableExtras" == "true" ]; then
 		log "MovieExtras script is enabled, skipping..."
 		exit
 	fi
+
+	if [ ! -z "$movieExtrasPath" ]; then
+		arrFolderPath="$movieExtrasPath"
+		arrRootFolderPath="$(dirname "$movieExtrasPath")"
+	fi
+
 fi
 
 if [ "$arrEventType" == "Test" ]; then
