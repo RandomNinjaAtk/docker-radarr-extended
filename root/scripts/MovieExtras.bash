@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.004"
+scriptVersion="1.0.005"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
+
+if [ ! -z "$1" ]; then
+    arrItemId=$1
+fi
 
 # Debugging
 #arrItemId=11677
