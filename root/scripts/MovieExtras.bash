@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.006"
+scriptVersion="1.0.007"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -84,22 +84,32 @@ if [ "$extrasSingle" == "true" ]; then
 
     if [ ! -z "$itemTrailerId" ]; then
         if [ ! -f "$itemPath/$extrasFileName.mkv" ]; then
+		log "$itemTitle :: Trailer :: Downloading Trailer ($itemTrailerId)..."
             if [ ! -z "$cookiesFile" ]; then
                 yt-dlp --cookies "$cookiesFile" -o "$itemPath/$extrasFileName" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
             else
                 yt-dlp -o "$itemPath/$extrasFileName" --write-sub --sub-lang $extrasLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$itemTrailerId"
             fi
-        fi
-        if [ -f "$itemPath/$extrasFileName.mkv" ]; then
-            chmod 666 "$itemPath/$extrasFileName.mkv"
-            chown abc:abc "$itemPath/$extrasFileName.mkv"
-        fi
-    fi
-
-    if [ ! -f "$itemPath/$extrasFileName.mkv" ]; then
-        log "$itemTitle :: ERROR :: No Trailer ID Found, Skipping..."
+        
+	
+		if python3 /usr/local/sma/manual.py --config "/sma.ini" -i "$itemPath/$extrasFileName.mkv" -nt &>/dev/null; then
+			sleep 0.01
+			log "$itemTitle :: Trailer :: Processed with SMA..."
+			rm  /usr/local/sma/config/*log*
+		else
+			log "$itemTitle :: Trailer :: ERROR :: SMA Processing Error"
+			rm "$itemPath/$extrasFileName.mkv" 
+			log "$itemTitle :: Trailer :: INFO: deleted: $itemPath/$extrasFileName.mkv"
+		fi
+		if [ -f "$itemPath/$extrasFileName.mkv" ]; then
+		    chmod 666 "$itemPath/$extrasFileName.mkv"
+		    chown abc:abc "$itemPath/$extrasFileName.mkv"
+		fi
+    	else
+		log "$itemTitle :: Trailer :: Already downloaded..."
+	    fi
     else
-        log "$itemTitle :: Trailer already downloaded..."
+        log "$itemTitle :: Trailer :: ERROR :: No Trailer ID Found, Skipping..."
     fi
     exit
 fi
