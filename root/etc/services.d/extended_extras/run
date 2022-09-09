@@ -11,8 +11,8 @@ echo "Starting Script...."
 for (( ; ; )); do
 	let i++
 	bash /config/extended/scripts/AutoExtras.bash
-	echo "Script sleeping for 6 hours..."
-	sleep 6h
+	echo "Script sleeping for 24 hours..."
+	sleep 24h
 done
 
 
