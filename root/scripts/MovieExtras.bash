@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.010"
+scriptVersion="1.0.011"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
 autoScan="false"
 
 if [ ! -z "$1" ]; then
-    arrItemId=$1
+    arrItemId="$1"
     autoScan="true"
 fi
 
