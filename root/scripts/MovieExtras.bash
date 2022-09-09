@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.012"
+scriptVersion="1.0.013"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -190,7 +190,7 @@ do
             continue
         fi
 
-        if python3 /usr/local/sma/manual.py --config "/sma.ini" -i "$finalPath/$finalFileName.mkv" -nt & /dev/null; then
+        if python3 /usr/local/sma/manual.py --config "/sma.ini" -i "$finalPath/$finalFileName.mkv" -nt &>/dev/null; then
             sleep 0.01
             log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle :: Processed with SMA..."
             rm  /usr/local/sma/config/*log*
