@@ -85,7 +85,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e enableQueueCleaner=true` | true = enabled :: Enables QueueCleaner Script that automatically removes stuck downloads that cannot be automatically imported on a 15 minute interval |
 | `-e enableExtras=true` | true = enabled :: Enables MovieExtras script to run during download import process |
 | `-e extrasType=all` | all or trailers :: all downloads all available videos (trailers, clips, featurette, etc...) :: trailers only downloads trailers |
-| `-e extrasLanguages=en` | Set the primary desired language, if not found, fallback to next langauge in the list... (this is a "," separated list of ISO 639-1 language codes) |
+| `-e extrasLanguages=en-US,it-IT` | Set the desired language for Extras, all languages will be processed... (this is a "," separated list of TMDB language codes, get the code from there sites language opitons, example: en-US |
 | `-e extrasOfficialOnly=true` | true = enabled :: Skips extras that are not considered/marked as Official from TMDB site. |
 | `-e extrasSingle=false` | true = enabled :: Only downloads the first available trailer, does not download any other extras |
 | `-e extrasKodiCompatibility=false` | true = enabled :: Only works if "extrasSingle" is set to true, names trailer in a kodi compatible naming scheme (movie-trailer.mkv) |
@@ -145,7 +145,7 @@ services:
       - enableQueueCleaner=true
       - enableExtras=true
       - extrasType=all
-      - extrasLanguages=en
+      - extrasLanguages=en-US,it-IT
       - extrasOfficialOnly=false
       - extrasSingle=false
       - extrasKodiCompatibility=false
