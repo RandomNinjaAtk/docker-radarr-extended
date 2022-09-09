@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.011"
+scriptVersion="1.0.012"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
 autoScan="false"
+updatePlex="false"
 
 if [ ! -z "$1" ]; then
     arrItemId="$1"
@@ -109,7 +110,6 @@ do
     i=0
     for id in $(echo "$tmdbVideosListDataIds"); do
         i=$(( i + 1))
-        updatePlex="false"
         tmdbExtraData="$(echo "$tmdbVideosListData" | jq -r "select(.id==\"$id\")")"
         tmdbExtraTitle="$(echo "$tmdbExtraData" | jq -r .name)"
         tmdbExtraTitleClean="$(echo "$tmdbExtraTitle" | sed -e "s/[^[:alpha:][:digit:]$^&_+=()'%;{},.@#]/ /g" -e "s/  */ /g" | sed 's/^[.]*//' | sed  's/[.]*$//g' | sed  's/^ *//g' | sed 's/ *$//g')"
