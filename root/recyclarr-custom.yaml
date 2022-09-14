@@ -101,6 +101,11 @@ radarr:
           - name: Any
             score: 25
       - trash_ids:
+          - 4b900e171accbfb172729b63323ea8ca # Multi
+        quality_profiles:
+          - name: Any
+            score: -100
+      - trash_ids:
           - e23edd2482476e595fb990b12e7c609c # DV HDR10
           - 55d53828b9d81cbe20b02efd00aa0efd # DV HLG
           - a3e19f8f627608af0211acd02bf89735 # DV SDR
@@ -113,6 +118,7 @@ radarr:
           - 90cedc1fea7ea5d11298bebd3d1d3223 # EVO (no WEBDL)
           - 0a3f082873eb454bde444150b70253cc # Extras
           - 90a6f9a284dff5103f6346090e6280c8 # LQ
+          - b6832f586342ef70d9c128d40c07b872 # Bad Dual Group
         quality_profiles:
           - name: Any
             score: -100000
