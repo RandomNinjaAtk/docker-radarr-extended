@@ -114,7 +114,7 @@ docker create \
   -e enableQueueCleaner=true \
   -e enableExtras=true \
   -e extrasType=all \
-  -e extrasLanguages=en \
+  -e extrasLanguages=en-US,it-IT \
   -e extrasOfficialOnly=false \
   -e extrasSingle=false \
   -e extrasKodiCompatibility=false \
