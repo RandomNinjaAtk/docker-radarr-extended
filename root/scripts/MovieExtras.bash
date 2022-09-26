@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.013"
+scriptVersion="1.0.014"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -9,6 +9,8 @@ updatePlex="false"
 if [ ! -z "$1" ]; then
     arrItemId="$1"
     autoScan="true"
+else
+    autoScan="false"
 fi
 
 # Debugging
@@ -56,12 +58,20 @@ if [ "$enableExtras" != "true" ]; then
     exit
 fi
 
-if find /config -type f -name "cookies.txt" | read; then
-    cookiesFile="$(find /config -type f -iname "cookies.txt" | head -n1)"
-    log "Cookies File Found!"
+if [ "$autoScan" == "true" ]; then
+    if [ ! -z "$2" ]; then
+    	cookiesFile="$2"
+    else
+       cookiesFile=""
+    fi    
 else
-    log "Cookies File Not Found!"
-    cookiesFile=""
+    if find /config -type f -iname "cookies.txt" | read; then
+        cookiesFile="$(find /config -type f -iname "cookies.txt" | head -n1)"
+        log "Cookies File Found!"
+    else
+        log "Cookies File Not Found!"
+        cookiesFile=""
+    fi
 fi
 
 arrItemData=$(curl -s "$arrUrl/api/v3/movie/$arrItemId?apikey=$arrApiKey")
