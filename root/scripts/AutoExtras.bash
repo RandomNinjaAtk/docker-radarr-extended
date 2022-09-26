@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.000"
+scriptVersion="1.0.001"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -26,6 +26,15 @@ fi
 exec &>> "/config/logs/AutoExtras.txt"
 chmod 666 "/config/logs/AutoExtras.txt"
 
+
+if find /config -type f -iname "cookies.txt" | read; then
+  cookiesFile="$(find /config -type f -iname "cookies.txt" | head -n1)"
+  log "Cookies File Found!"
+else
+  log "Cookies File Not Found!"
+  cookiesFile=""
+fi
+
 radarrMovieList=$(curl -s --header "X-Api-Key:"${arrApiKey} --request GET  "$arrUrl/api/v3/movie")
 radarrMovieTotal=$(echo "${radarrMovieList}"  | jq -r '.[] | select(.hasFile==true) | .id' | wc -l)
 radarrMovieIds=$(echo "${radarrMovieList}" | jq -r '.[] | select(.hasFile==true) | .id')
@@ -34,7 +43,7 @@ loopCount=0
 for id in $(echo $radarrMovieIds); do
     loopCount=$(( $loopCount + 1 ))
     log "$loopCount of $radarrMovieTotal :: $id :: Processing with MovieExtras.bash"
-    bash /config/extended/scripts/MovieExtras.bash "$id"
+    bash /config/extended/scripts/MovieExtras.bash "$id" "$cookiesFile"
 done
 
 exit
