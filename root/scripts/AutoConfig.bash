@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.005"
+scriptVersion="1.0.006"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -55,9 +55,9 @@ updateArr=$(curl -s "$arrUrl/api/v3/config/mediamanagement" -X PUT -H "Content-T
   "rescanAfterRefresh":"always",
   "autoRenameFolders":false,
   "pathsDefaultStatic":false,
-  "setPermissionsLinux":true,
+  "setPermissionsLinux":false,
   "chmodFolder":"777",
-  "chownGroup":"abc",
+  "chownGroup":"",
   "skipFreeSpaceCheckWhenImporting":false,
   "minimumFreeSpaceWhenImporting":100,
   "copyUsingHardlinks":true,
