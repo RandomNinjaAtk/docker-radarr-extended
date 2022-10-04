@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.005"
+scriptVersion="1.0.006"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -19,7 +19,7 @@ if [ -f "/config/logs/QueueCleaner.txt" ]; then
 fi
 
 exec &>> "/config/logs/QueueCleaner.txt"
-chmod 666 "/config/logs/QueueCleaner.txt"
+chmod 777 "/config/logs/QueueCleaner.txt"
 
 log () {
   m_time=`date "+%F %T"`
