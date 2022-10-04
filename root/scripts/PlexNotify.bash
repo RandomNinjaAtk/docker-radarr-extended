@@ -16,7 +16,7 @@ if [ -f "/config/logs/PlexNotify.txt" ]; then
 fi
 
 exec &>> "/config/logs/PlexNotify.txt"
-chmod 666 "/config/logs/PlexNotify.txt"
+chmod 777 "/config/logs/PlexNotify.txt"
 
 log () {
     m_time=`date "+%F %T"`
