@@ -50,7 +50,7 @@ if [ "$arrEventType" == "Test" ]; then
 fi
 
 exec &>> "/config/logs/MovieExtras.txt"
-chmod 666 "/config/logs/MovieExtras.txt"
+chmod 777 "/config/logs/MovieExtras.txt"
 
 if [ "$enableExtras" != "true" ]; then
     log "Script disabled, exiting..."
@@ -170,7 +170,6 @@ do
         if [ ! -d "$finalPath" ]; then
             mkdir -p "$finalPath"
             chmod 777 "$finalPath"
-            chown abc:abc "$finalPath"
         fi
 
 
@@ -194,7 +193,6 @@ do
         if [ -f "$finalPath/$finalFileName.mkv" ]; then
             log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey) :: Compete"
             chmod 666 "$finalPath/$finalFileName.mkv"
-            chown abc:abc "$finalPath/$finalFileName.mkv"
         else
             log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey) :: ERROR :: Download Failed"
             continue
