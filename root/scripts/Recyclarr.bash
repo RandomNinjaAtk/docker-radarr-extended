@@ -19,7 +19,7 @@ if [ -f "/config/logs/Recyclarr.txt" ]; then
 fi
 
 exec &>> "/config/logs/Recyclarr.txt"
-chmod 666 "/config/logs/Recyclarr.txt"
+chmod 777 "/config/logs/Recyclarr.txt"
 
 log () {
   m_time=`date "+%F %T"`
