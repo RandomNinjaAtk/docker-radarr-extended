@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.002"
+scriptVersion="1.0.003"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -33,8 +33,7 @@ sed -i "s%arrApi%$arrApiKey%g" "/recyclarr.yaml"
 if [ ! -f /config/extended/configs/recyclarr.yaml ]; then
 	log "Importing default recylarr config file to: /config/extended/configs/recyclarr.yaml"
 	cp "/recyclarr.yaml" "/config/extended/configs/recyclarr.yaml"
-	chmod 766 "/config/extended/configs/recyclarr.yaml"
-	chown abc:abc "/config/extended/configs/recyclarr.yaml"
+	chmod 777 "/config/extended/configs/recyclarr.yaml"
 fi
 
 
