@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.014"
+scriptVersion="1.0.015"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -186,9 +186,9 @@ do
 
         log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey) :: Downloading..."
         if [ ! -z "$cookiesFile" ]; then
-            yt-dlp --cookies "$cookiesFile" -o "$finalPath/$finalFileName" --write-sub --sub-lang $videoLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey" &>/dev/null
+            yt-dlp --cookies "$cookiesFile" -o "$finalPath/$finalFileName" --write-sub --sub-lang $videoLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey"
         else
-            yt-dlp -o "$finalPath/$finalFileName" --write-sub --sub-lang $videoLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey" &>/dev/null
+            yt-dlp -o "$finalPath/$finalFileName" --write-sub --sub-lang $videoLanguages --embed-subs --merge-output-format mkv --no-mtime --geo-bypass "https://www.youtube.com/watch?v=$tmdbExtraKey"
         fi
         if [ -f "$finalPath/$finalFileName.mkv" ]; then
             log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle ($tmdbExtraKey) :: Compete"
@@ -198,7 +198,7 @@ do
             continue
         fi
 
-        if python3 /usr/local/sma/manual.py --config "/sma.ini" -i "$finalPath/$finalFileName.mkv" -nt &>/dev/null; then
+        if python3 /usr/local/sma/manual.py --config "/sma.ini" -i "$finalPath/$finalFileName.mkv" -nt; then
             sleep 0.01
             log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: $tmdbExtraTitle :: Processed with SMA..."
             rm  /usr/local/sma/config/*log*
