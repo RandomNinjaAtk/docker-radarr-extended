@@ -22,6 +22,7 @@ RUN \
 		yt-dlp && \
 	echo "************ install python packages ************" && \
 	pip install --upgrade --no-cache-dir -U \
+		excludarr \
 		yq && \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
