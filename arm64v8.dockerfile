@@ -30,6 +30,7 @@ RUN \
 		ffmpeg && \
 	echo "************ install python packages ************" && \
 	python3 -m pip install --no-cache-dir -U \
+		excludarr \
 		yq && \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
