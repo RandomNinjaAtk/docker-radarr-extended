@@ -45,7 +45,12 @@ RUN \
 	chmod g+w ${SMA_PATH}/config/sma.log && \
 	echo "************ install pip dependencies ************" && \
 	python3 -m pip install --user --upgrade pip && \	
- 	pip3 install -r ${SMA_PATH}/setup/requirements.txt
+ 	pip3 install -r ${SMA_PATH}/setup/requirements.txt && \
+	echo "************ install recyclarr ************" && \
+	mkdir -p /recyclarr && \
+	wget "https://github.com/recyclarr/recyclarr/releases/latest/download/recyclarr-linux-musl-arm.zip" -O "/recyclarr/recyclarr.zip" && \
+	unzip -o /recyclarr/recyclarr.zip -d /recyclarr &>/dev/null && \
+	chmod 777 /recyclarr/recyclarr
 	
 # copy local files
 COPY root/ /
