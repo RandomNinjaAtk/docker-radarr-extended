@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.1"
+scriptVersion="1.0.2"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -23,7 +23,7 @@ chmod 666 "/config/logs/AutoConfig.txt"
 
 log () {
   m_time=`date "+%F %T"`
-  echo $m_time" :: AutoConfig :: "$1
+  echo $m_time" :: AutoConfig :: $scriptVersion :: "$1
 }
 
 log "Getting Trash Guide Recommended Movie Naming..."
@@ -35,7 +35,7 @@ updateArr=$(curl -s "$arrUrl/api/v3/config/naming" -X PUT -H "Content-Type: appl
     \"replaceIllegalCharacters\":true,
     \"colonReplacementFormat\":\"delete\",
     \"standardMovieFormat\":\"$movieNaming\",
-    \"movieFolderFormat\":\"{Movie CleanTitle} ({Release Year})\",
+    \"movieFolderFormat\":\"{Movie CleanTitle} {(Release Year)}\",
     \"includeQuality\":false,
     \"replaceSpaces\":false,
     \"id\":1
