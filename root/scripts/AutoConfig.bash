@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.2"
+scriptVersion="1.0.3"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -35,7 +35,7 @@ updateArr=$(curl -s "$arrUrl/api/v3/config/naming" -X PUT -H "Content-Type: appl
     \"replaceIllegalCharacters\":true,
     \"colonReplacementFormat\":\"delete\",
     \"standardMovieFormat\":\"$movieNaming\",
-    \"movieFolderFormat\":\"{Movie CleanTitle} {(Release Year)}\",
+    \"movieFolderFormat\":\"{Movie CleanTitle}{ (Release Year)}\",
     \"includeQuality\":false,
     \"replaceSpaces\":false,
     \"id\":1
