@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.3"
+scriptVersion="1.0.4"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -25,6 +25,13 @@ log () {
   m_time=`date "+%F %T"`
   echo $m_time" :: AutoConfig :: $scriptVersion :: "$1
 }
+
+if [ -f /config/extended/logs/autoconfig ]; then
+	log "Radarr previously configured with optimal settings, skipping..."
+	log "To re-configure Radarr, delete the following file:"
+	log "/config/extended/logs/autoconfig" 
+	exit
+fi
 
 log "Getting Trash Guide Recommended Movie Naming..."
 movieNaming="$(curl -s https://raw.githubusercontent.com/TRaSH-/Guides/master/docs/Radarr/Radarr-recommended-naming-scheme.md | grep "{Movie Clean" | head -n 1)"
@@ -91,4 +98,7 @@ else
   updateArr=$(curl -s "$arrUrl/api/v3/notification?" -X POST -H "Content-Type: application/json" -H "X-Api-Key: ${arrApiKey}" --data-raw '{"onGrab":false,"onDownload":true,"onUpgrade":true,"onRename":true,"onMovieAdded":false,"onMovieDelete":false,"onMovieFileDelete":false,"onMovieFileDeleteForUpgrade":false,"onHealthIssue":false,"onApplicationUpdate":false,"supportsOnGrab":true,"supportsOnDownload":true,"supportsOnUpgrade":true,"supportsOnRename":true,"supportsOnMovieAdded":true,"supportsOnMovieDelete":true,"supportsOnMovieFileDelete":true,"supportsOnMovieFileDeleteForUpgrade":true,"supportsOnHealthIssue":true,"supportsOnApplicationUpdate":true,"includeHealthWarnings":false,"name":"MovieExtras.bash","fields":[{"name":"path","value":"/config/extended/scripts/MovieExtras.bash"},{"name":"arguments"}],"implementationName":"Custom Script","implementation":"CustomScript","configContract":"CustomScriptSettings","infoLink":"https://wiki.servarr.com/radarr/supported#customscript","message":{"message":"Testing will execute the script with the EventType set to Test, ensure your script handles this correctly","type":"warning"},"tags":[]}')
   log "Complete"
 fi
+
+touch /config/extended/logs/autoconfig
+chmod 666 /config/extended/logs/autoconfig
 exit
