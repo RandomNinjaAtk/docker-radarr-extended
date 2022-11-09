@@ -33,6 +33,10 @@ if [ ! -d "/config/extended/configs" ]; then
 	mkdir -p "/config/extended/configs"
 fi
 
+if [ ! -f "/config/extended/configs/sma.ini" ]; then
+	cp /sma.ini "/config/extended/configs/sma.ini"
+fi
+
 # set permissions
 chmod 777 -R /usr/local/sma
 find /config/extended -type d -exec chmod 777 {} \;
