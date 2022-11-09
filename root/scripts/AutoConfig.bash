@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.4"
+scriptVersion="1.0.5"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -18,8 +18,9 @@ if [ -f "/config/logs/AutoConfig.txt" ]; then
 	find /config/logs -type f -name "AutoConfig.txt" -size +1024k -delete
 fi
 
-exec &>> "/config/logs/AutoConfig.txt"
+touch "/config/logs/AutoConfig.txt"
 chmod 666 "/config/logs/AutoConfig.txt"
+exec &> >(tee -a "/config/logs/AutoConfig.txt")
 
 log () {
   m_time=`date "+%F %T"`
