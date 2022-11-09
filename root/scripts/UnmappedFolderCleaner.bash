@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.0"
+scriptVersion="1.0.1"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -18,8 +18,9 @@ if [ -f "/config/logs/UnmappedFolderCleaner.txt" ]; then
 	find /config/logs -type f -name "UnmappedFolderCleaner.txt" -size +1024k -delete
 fi
 
-exec &>> "/config/logs/UnmappedFolderCleaner.txt"
+touch "/config/logs/UnmappedFolderCleaner.txt"
 chmod 666 "/config/logs/UnmappedFolderCleaner.txt"
+exec &> >(tee -a "/config/logs/UnmappedFolderCleaner.txt")
 
 log () {
   m_time=`date "+%F %T"`
