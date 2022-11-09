@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.0"
+scriptVersion="1.0.1"
 arrEventType="$radarr_eventtype"
 
 # auto-clean up log file to reduce space usage
@@ -21,13 +21,40 @@ if [ "$arrEventType" == "Test" ]; then
 	exit
 fi
 
-log "Processing :: $radarr_moviefile_path"
-if python3 /usr/local/sma/manual.py --config "/config/extended/configs/sma.ini" -i "$radarr_moviefile_path" -tmdb $radarr_movie_tmdbid -a; then
-    sleep 0.01
-    log "COMPLETE!"
-    rm  /usr/local/sma/config/*log*
-else
-    log "ERROR :: SMA Processing Error"
-fi
+Extras () {
+    if find /config -type f -iname "cookies.txt" | read; then
+        cookiesFile="$(find /config -type f -iname "cookies.txt" | head -n1)"
+        log "Cookies File Found!"
+    else
+        log "Cookies File Not Found!"
+        cookiesFile=""
+    fi
+    # Extras Script
+    bash /config/extended/scripts/MovieExtras.bash "$radarr_movie_id" "$cookiesFile"
+}
+
+NotifyPlex () {
+    # Process item with PlexNotify.bash if plexToken is configured
+    if [ ! -z "$plexToken" ]; then
+        # update plex
+        log "$itemTitle :: Using PlexNotify.bash to update Plex...."
+        bash /config/extended/scripts/PlexNotify.bash "$radarr_movie_path"
+    fi
+}
+
+ProcessWithSma () {
+    log "Processing :: $radarr_moviefile_path"
+    if python3 /usr/local/sma/manual.py --config "/config/extended/configs/sma.ini" -i "$radarr_moviefile_path" -tmdb $radarr_movie_tmdbid -a; then
+        sleep 0.01
+        log "COMPLETE!"
+        rm  /usr/local/sma/config/*log*
+    else
+        log "ERROR :: SMA Processing Error"
+    fi
+}
+
+ProcessWithSma
+Extras
+NotifyPlex
 
 exit
