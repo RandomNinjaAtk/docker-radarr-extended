@@ -34,15 +34,11 @@ if [ ! -d "/config/extended/configs" ]; then
 fi
 
 # set permissions
-chmod 755 /etc/services.d/extended/run
-chmod 777 /config/extended
-chmod 777 /config/extended/cache
-chmod 777 /config/extended/logs
-chmod 777 /config/extended/configs
-chmod -R 777 /config/extended/scripts
-chown -R abc:abc /config/extended
 chmod 777 -R /usr/local/sma
+find /config/extended -type d -exec chmod 777 {} \;
+find /config/extended -type f -exec chmod 666 {} \;
+chmod -R 777 /config/extended/scripts
 
 
 echo "Complete..."
-exit $?
+exit
