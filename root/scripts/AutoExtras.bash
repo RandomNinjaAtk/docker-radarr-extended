@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.001"
+scriptVersion="1.0.002"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -13,19 +13,19 @@ if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrl="http://127.0.0.1:${arrPort}${arrUrlBase}"
 fi
 
-log () {
-  m_time=`date "+%F %T"`
-  echo $m_time" :: AutoExtras :: "$1
-}
-
 # auto-clean up log file to reduce space usage
 if [ -f "/config/logs/AutoExtras.txt" ]; then
 	find /config/logs -type f -name "AutoExtras.txt" -size +1024k -delete
 fi
 
-exec &>> "/config/logs/AutoExtras.txt"
+touch "/config/logs/AutoExtras.txt"
 chmod 666 "/config/logs/AutoExtras.txt"
+exec &> >(tee -a "/config/logs/AutoExtras.txt")
 
+log () {
+  m_time=`date "+%F %T"`
+  echo $m_time" :: AutoExtras :: $scriptVersion :: "$1
+}
 
 if find /config -type f -iname "cookies.txt" | read; then
   cookiesFile="$(find /config -type f -iname "cookies.txt" | head -n1)"
