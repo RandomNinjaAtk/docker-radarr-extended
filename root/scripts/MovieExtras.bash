@@ -34,23 +34,24 @@ if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrl="http://127.0.0.1:${arrPort}${arrUrlBase}"
 fi
 
-log () {
-  m_time=`date "+%F %T"`
-  echo $m_time" :: MovieExtras :: "$1
-}
-
 # auto-clean up log file to reduce space usage
 if [ -f "/config/logs/MovieExtras.txt" ]; then
 	find /config/logs -type f -name "MovieExtras.txt" -size +1024k -delete
 fi
 
+touch "/config/logs/MovieExtras.txt"
+chmod 666 "/config/logs/MovieExtras.txt"
+exec &> >(tee -a "/config/logs/MovieExtras.txt")
+
+log () {
+  m_time=`date "+%F %T"`
+  echo $m_time" :: MovieExtras :: $scriptVersion :: "$1
+}
+
 if [ "$arrEventType" == "Test" ]; then
 	log "Tested Successfully"
 	exit 0	
 fi
-
-exec &>> "/config/logs/MovieExtras.txt"
-chmod 777 "/config/logs/MovieExtras.txt"
 
 if [ "$enableExtras" != "true" ]; then
     log "Script disabled, exiting..."
