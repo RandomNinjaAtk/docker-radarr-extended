@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-version="1.0.004"
+scriptVersion="1.0.005"
 
 notfidedBy="Radarr"
 arrRootFolderPath="$(dirname "$radarr_movie_path")"
@@ -14,13 +14,13 @@ movieExtrasPath="$1"
 if [ -f "/config/logs/PlexNotify.txt" ]; then
 	find /config/logs -type f -name "PlexNotify.txt" -size +1024k -delete
 fi
-
-exec &>> "/config/logs/PlexNotify.txt"
-chmod 777 "/config/logs/PlexNotify.txt"
+touch "/config/logs/PlexNotify.txt"
+exec &> >(tee -a "/config/logs/PlexNotify.txt")
+chmod 666 "/config/logs/PlexNotify.txt"
 
 log () {
     m_time=`date "+%F %T"`
-    echo $m_time" :: PlexNotify :: "$1
+    echo $m_time" :: PlexNotify :: $scriptVersion :: "$1
 }
 
 if [ "$enableExtras" == "true" ]; then
