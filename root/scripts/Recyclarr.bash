@@ -18,12 +18,13 @@ if [ -f "/config/logs/Recyclarr.txt" ]; then
 	find /config/logs -type f -name "Recyclarr.txt" -size +1024k -delete
 fi
 
-exec &>> "/config/logs/Recyclarr.txt"
-chmod 777 "/config/logs/Recyclarr.txt"
+touch "/config/logs/Recyclarr.txt"
+exec &> >(tee -a "/config/logs/Recyclarr.txt")
+chmod 666 "/config/logs/Recyclarr.txt"
 
 log () {
   m_time=`date "+%F %T"`
-  echo $m_time" :: Recycalarr :: "$1
+  echo $m_time" :: Recycalarr :: $scriptVersion :: "$1
 }
 
 # Configure Yaml with URL and API Key
