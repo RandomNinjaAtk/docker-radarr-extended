@@ -4,6 +4,7 @@ LABEL maintainer="RandomNinjaAtk"
 ENV SMA_PATH /usr/local/sma
 ENV UPDATE_SMA FALSE
 ENV SMA_APP Radarr
+ENV videoFormat="bestvideo*+bestaudio/best"
 
 RUN \
 	echo "************ install packages ************" && \
