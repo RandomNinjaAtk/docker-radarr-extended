@@ -48,9 +48,11 @@ radarr:
           - e77382bcfeba57cb83744c9c5449b401 # 7.1 Surround
           - f2aacebe2c932337fe352fa6e42c1611 # 9.1 Surround
           - 820b09bb9acbfde9c35c71e0e565dad8 # 1080p
+          - 08d6d8834ad9ec87b1dc7ec8148e7a1f # PQ
           - e61e28db95d22bedcadf030b8f156d96 # HDR
           - dfb86d5941bc9075d6af23b09c2aeecd # HDR10
           - b974a6cd08c1066250f1f177d7aa1225 # HDR10+
+          - b17886cb4158d9fea189859409975758 # HDR10+ Boost
         quality_profiles:
           - name: Any
             score: 75
@@ -96,7 +98,6 @@ radarr:
           - a570d4a0e56a2874b64e5bfa55202a1b # FLAC
           - 6ba9033150e7896bdc9ec4b44f2b230f # MP3
           - e7c2fcae07cbada050a0af3357491d7b # PCM
-          - cae4ca30163749b891686f95532519bd # AV1
           - a5d148168c4506b55cf53984107c396e # 10bit
         quality_profiles:
           - name: Any
@@ -124,7 +125,7 @@ radarr:
             score: -500
       - trash_ids:
           - ff86c4326018682f817830ced463332b # MPEG2
-          - 08d6d8834ad9ec87b1dc7ec8148e7a1f # PQ
+          - cae4ca30163749b891686f95532519bd # AV1
           - b8cd450cbfa689c0259a01d9e29ba3d6 # 3D
           - ed38b889b31be83fda192888e2286d83 # BR-DISK
           - 90cedc1fea7ea5d11298bebd3d1d3223 # EVO (no WEBDL)
@@ -137,6 +138,9 @@ radarr:
           - 58d6a88f13e2db7f5059c41047876f00 # DV
           - 9364dd386c9b4a1100dde8264690add7 # HLG
           - 0f12c086e289cf966fa5948eac571f44 # Hybrid
+          - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
+          - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
+          - 7357cf5161efbf8c4d5d0c30b4815ee2 # Obfuscated          
         quality_profiles:
           - name: Any
             score: -100000
