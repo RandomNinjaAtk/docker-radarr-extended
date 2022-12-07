@@ -52,7 +52,19 @@ RUN \
 	wget "https://github.com/recyclarr/recyclarr/releases/latest/download/recyclarr-linux-musl-arm.zip" -O "/recyclarr/recyclarr.zip" && \
 	unzip -o /recyclarr/recyclarr.zip -d /recyclarr &>/dev/null && \
 	chmod 777 /recyclarr/recyclarr
-	
+
+# .NET Runtime version
+ENV DOTNET_VERSION=7.0.0
+
+# Install .NET Runtime
+RUN wget -O dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runtime/$DOTNET_VERSION/dotnet-runtime-$DOTNET_VERSION-linux-musl-arm.tar.gz \
+    && dotnet_sha512='3d3c3a62f6e1b457604c5d642ac79027d804d2a816860f020806f77432d9e2a402dcde45c98aea68a2ec93ea97161f65222186e4bafee58d72e8122de941ce61' \
+    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
+    && mkdir -p /usr/share/dotnet \
+    && tar -oxzf dotnet.tar.gz -C /usr/share/dotnet \
+    && rm dotnet.tar.gz \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+
 # copy local files
 COPY root/ /
 
