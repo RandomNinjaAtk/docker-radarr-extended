@@ -11,8 +11,8 @@
 
 # Configuration specific to Radarr.
 radarr:
-  # Set the URL/API Key to your actual instance
-  - base_url: arrUrl
+  instance1:
+    base_url: arrUrl
     api_key: arrApi
 
     # Which quality definition in the guide to sync to Radarr. Only choice right now is 'movie'
