@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.005"
+scriptVersion="1.0.006"
 
 notfidedBy="Radarr"
 arrRootFolderPath="$(dirname "$radarr_movie_path")"
@@ -16,7 +16,6 @@ if [ -f "/config/logs/PlexNotify.txt" ]; then
 fi
 touch "/config/logs/PlexNotify.txt"
 exec &> >(tee -a "/config/logs/PlexNotify.txt")
-chmod 666 "/config/logs/PlexNotify.txt"
 
 log () {
     m_time=`date "+%F %T"`
