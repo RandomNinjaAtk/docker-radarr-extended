@@ -41,7 +41,6 @@ RUN \
  	pip3 install -r ${SMA_PATH}/setup/requirements.txt && \
 	echo "************ install recyclarr ************" && \
 	mkdir -p /recyclarr && \
-	https://github.com/recyclarr/recyclarr/releases/download/v4.1.0/recyclarr-linux-musl-x64.tar.xz
 	wget "https://github.com/recyclarr/recyclarr/releases/latest/download/recyclarr-linux-musl-x64.tar.xz" -O "/recyclarr/recyclarr.tar.xz" && \
 	tar -xf /recyclarr/recyclarr.tar.xz -C /recyclarr &>/dev/null && \
 	chmod 777 /recyclarr/recyclarr
