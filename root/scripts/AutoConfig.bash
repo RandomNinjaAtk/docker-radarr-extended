@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.5"
+scriptVersion="1.0.6"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -34,16 +34,24 @@ if [ -f /config/extended/logs/autoconfig ]; then
 	exit
 fi
 
-log "Getting Trash Guide Recommended Movie Naming..."
-movieNaming="$(curl -s https://raw.githubusercontent.com/TRaSH-/Guides/master/docs/Radarr/Radarr-recommended-naming-scheme.md | grep "{Movie Clean" | head -n 1)"
+if [ -f /config/extended/configs/naming.json ]; then
+	log "Using custom Naming (/config/extended/config/naming.json)..."
+	namingJson=$(cat /config/extended/configs/naming.json)
+else
+	log "Getting Trash Guide Recommended Naming..."
+	namingJson=$(curl -s "https://raw.githubusercontent.com/TRaSH-/Guides/master/docs/json/radarr/naming/radarr-naming.json")
+fi
+
+trashStandardMovieFormat=$(echo "$namingJson" | jq -r '.file.default')
+trashMovieFolderFormat=$(echo "$namingJson" | jq -r '.folder.default')
 
 log "Updating Radarr Moving Naming..."
 updateArr=$(curl -s "$arrUrl/api/v3/config/naming" -X PUT -H "Content-Type: application/json" -H "X-Api-Key: $arrApiKey" --data-raw "{
     \"renameMovies\":true,
     \"replaceIllegalCharacters\":true,
     \"colonReplacementFormat\":\"delete\",
-    \"standardMovieFormat\":\"$movieNaming\",
-    \"movieFolderFormat\":\"{Movie CleanTitle}{ (Release Year)}\",
+    \"standardMovieFormat\":\"$trashStandardMovieFormat\",
+    \"movieFolderFormat\":\"$trashMovieFolderFormat\",
     \"includeQuality\":false,
     \"replaceSpaces\":false,
     \"id\":1
