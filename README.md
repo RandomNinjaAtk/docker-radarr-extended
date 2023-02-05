@@ -25,6 +25,12 @@ For more details, visit the [Wiki](https://github.com/RandomNinjaAtk/docker-rada
 
 This containers base image is provided by: [linuxserver/radarr](https://github.com/linuxserver/docker-radarr)
 
+### All Arr-Extended Apps:
+* [sabnzbd-extended](https://github.com/RandomNinjaAtk/docker-sabnzbd-extended)
+* [lidarr-extended](https://github.com/RandomNinjaAtk/docker-lidarr-extended)
+* [radarr-extended](https://github.com/RandomNinjaAtk/docker-radarr-extended)
+* [sonarr-extended](https://github.com/RandomNinjaAtk/docker-sonarr-extended)
+* [readarr-extended](https://github.com/RandomNinjaAtk/docker-readarr-extended)
 
 ## Features
 * Downloading **Movie Trailers** and **Extras** using online sources for use in popular applications (Plex/Kodi/Emby/Jellyfin): 
