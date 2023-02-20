@@ -35,7 +35,7 @@ if [ -f /config/extended/logs/autoconfig ]; then
 fi
 
 if [ -f /config/extended/configs/naming.json ]; then
-	log "Using custom Naming (/config/extended/config/naming.json)..."
+	log "Using custom Naming (/config/extended/configs/naming.json)..."
 	namingJson=$(cat /config/extended/configs/naming.json)
 else
 	log "Getting Trash Guide Recommended Naming..."
