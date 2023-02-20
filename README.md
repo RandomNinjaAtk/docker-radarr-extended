@@ -39,7 +39,7 @@ This containers base image is provided by: [linuxserver/radarr](https://github.c
   * Names videos correctly to match Plex/Emby/Jellyfin naming convention
 * Auto Configure Radarr with optimized settings
   * Optimized file/folder naming (based on trash guides)
-  * Congifures media management settings
+  * Configures media management settings
   * Configures metadata settings
 * Recyclarr built-in
   * Auto configures Custom Formats
