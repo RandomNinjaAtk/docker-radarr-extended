@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.017"
+scriptVersion="1.0.018"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -78,10 +78,13 @@ arrItemData=$(curl -s "$arrUrl/api/v3/movie/$arrItemId?apikey=$arrApiKey")
 itemTitle=$(echo "$arrItemData" | jq -r .title)
 itemHasFile=$(echo "$arrItemData" | jq -r .hasFile)
 itemPath="$(echo "$arrItemData" | jq -r ".path")"
+itemFileName=$(curl -s "$arrUrl/api/v3/moviefile?movieId=$arrItemId&apikey=$arrApiKey" | jq -r .[].relativePath)
+itemFileNameNoExt="${itemFileName%.*}"
 itemFolder="$(basename "$itemPath")"
 itemRelativePath="$(echo "$arrItemData" | jq -r ".movieFile.relativePath")"
 itemTrailerId="$(echo "$arrItemData" | jq -r ".youTubeTrailerId")"
 tmdbId="$(echo "$arrItemData" | jq -r ".tmdbId")"
+
 
 
 if [ ! -d "$itemPath" ]; then
@@ -157,10 +160,10 @@ do
             log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: Single Trailer Enabled..."
             if [ "$extrasKodiCompatibility" == "true" ] ; then
                 finalPath="$itemPath"
-                finalFileName="movie-trailer"
+                finalFileName="$itemFileNameNoExt-trailer"
             else
                 finalPath="$itemPath/$extraFolderName"
-                finalFileName="$itemFolder"
+                finalFileName="$tmdbExtraTitleClean"
             fi
         else
             finalPath="$itemPath/$extraFolderName"
@@ -180,6 +183,11 @@ do
                 break
             fi
             continue
+        elif [ -f "$finalPath/movie-trailer.mkv" ]; then 
+            if [ "$extrasKodiCompatibility" == "true" ] ; then
+                log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: Removing old \"movie-trailer.mkv\" to replace with Kodi naming..."
+                rm "$finalPath/movie-trailer.mkv"
+            fi
         fi
 
         videoLanguages="$(echo "$extrasLanguages" | sed "s/-[[:alpha:]][[:alpha:]]//g")"
