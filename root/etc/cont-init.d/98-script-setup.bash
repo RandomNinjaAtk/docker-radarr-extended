@@ -43,6 +43,9 @@ find /config/extended -type d -exec chmod 777 {} \;
 find /config/extended -type f -exec chmod 666 {} \;
 chmod -R 777 /config/extended/scripts
 
-
+echo "Setting up scripts..."
+echo "Downloading and setting up QueueCleaner.bash"
+curl "https://raw.githubusercontent.com/RandomNinjaAtk/arr-scripts/main/QueueCleaner.bash" -o "/etc/services.d/QueueCleaner.bash"
+chmod 777 "/etc/services.d/QueueCleaner.bash"
 echo "Complete..."
 exit
