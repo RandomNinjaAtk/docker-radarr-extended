@@ -44,12 +44,15 @@ find /config/extended -type f -exec chmod 666 {} \;
 chmod -R 777 /config/extended/scripts
 
 echo "Setting up scripts..."
-if [  -f "/etc/services.d/QueueCleaner.bash" ]; then
+if [  -f "/custom-services.d/QueueCleaner.bash" ]; then
 	echo "Removing old script, QueueCleaner.bash"
-	rm "/etc/services.d/QueueCleaner.bash"
+	rm "/custom-services.d/QueueCleaner.bash"
+fi
+if [ ! -d /custom-services.d ]; then
+	mkdir -p /custom-services.d
 fi
 echo "Downloading and setting up QueueCleaner.bash"
-curl "https://raw.githubusercontent.com/RandomNinjaAtk/arr-scripts/main/QueueCleaner.bash" -o "/etc/services.d/QueueCleaner.bash"
-chmod 777 "/etc/services.d/QueueCleaner.bash"
+curl "https://raw.githubusercontent.com/RandomNinjaAtk/arr-scripts/main/QueueCleaner.bash" -o "/custom-services.d/QueueCleaner.bash"
+chmod 777 "/custom-services.d/QueueCleaner.bash"
 echo "Complete..."
 exit
