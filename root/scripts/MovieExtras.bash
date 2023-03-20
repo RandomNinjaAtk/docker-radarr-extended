@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.018"
+scriptVersion="1.0.019"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -163,7 +163,10 @@ do
                 finalFileName="$itemFileNameNoExt-trailer"
             else
                 finalPath="$itemPath/$extraFolderName"
-                finalFileName="$tmdbExtraTitleClean"
+		if [ -f "$finalPath/$tmdbExtraTitleClean.mkv" ]; then 
+			rm "$finalPath/$tmdbExtraTitleClean.mkv"
+		fi
+		finalFileName="$itemFolder"
             fi
         else
             finalPath="$itemPath/$extraFolderName"
