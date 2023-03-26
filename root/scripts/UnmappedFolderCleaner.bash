@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.1"
+scriptVersion="1.0.2"
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -18,8 +18,10 @@ if [ -f "/config/logs/UnmappedFolderCleaner.txt" ]; then
 	find /config/logs -type f -name "UnmappedFolderCleaner.txt" -size +1024k -delete
 fi
 
-touch "/config/logs/UnmappedFolderCleaner.txt"
-chmod 666 "/config/logs/UnmappedFolderCleaner.txt"
+if [ ! -f "/config/logs/UnmappedFolderCleaner.txt" ]; then
+    touch "/config/logs/UnmappedFolderCleaner.txt"
+    chmod 777 "/config/logs/UnmappedFolderCleaner.txt"
+fi
 exec &> >(tee -a "/config/logs/UnmappedFolderCleaner.txt")
 
 log () {
