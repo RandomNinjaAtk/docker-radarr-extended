@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.019"
+scriptVersion="1.0.1"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -39,7 +39,10 @@ if [ -f "/config/logs/MovieExtras.txt" ]; then
 	find /config/logs -type f -name "MovieExtras.txt" -size +1024k -delete
 fi
 
-touch "/config/logs/MovieExtras.txt"
+if [ ! -f "/config/logs/MovieExtras.txt" ]; then
+    touch "/config/logs/MovieExtras.txt"
+    chmod 777 "/config/logs/MovieExtras.txt"
+fi
 exec &> >(tee -a "/config/logs/MovieExtras.txt")
 
 log () {
