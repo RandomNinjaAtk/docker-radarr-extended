@@ -17,7 +17,7 @@ fi
 
 if [ ! -f "/config/logs/PlexNotify.txt" ]; then
     touch "/config/logs/PlexNotify.txt"
-    chmod 777 "/config/logs/MovieExtras.txt"
+    chmod 777 "/config/logs/PlexNotify.txt"
 fi
 exec &> >(tee -a "/config/logs/PlexNotify.txt")
 
