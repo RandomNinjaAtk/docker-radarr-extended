@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.1"
+scriptVersion="1.0.2"
 arrEventType="$radarr_eventtype"
 
 # auto-clean up log file to reduce space usage
@@ -7,8 +7,10 @@ if [ -f "/config/logs/SMA.txt" ]; then
 	find /config/logs -type f -name "SMA.txt" -size +1024k -delete
 fi
 
-touch "/config/logs/SMA.txt"
-chmod 666 "/config/logs/SMA.txt"
+if [ ! -f "/config/logs/SMA.txt" ]; then
+    touch "/config/logs/SMA.txt"
+    chmod 777 "/config/logs/SMA.txt"
+fi
 exec &> >(tee -a "/config/logs/SMA.txt")
 
 log () {
