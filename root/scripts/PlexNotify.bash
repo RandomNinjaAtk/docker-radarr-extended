@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.007"
+scriptVersion="1.0.1"
 
 notfidedBy="Radarr"
 arrRootFolderPath="$(dirname "$radarr_movie_path")"
@@ -14,7 +14,11 @@ movieExtrasPath="$1"
 if [ -f "/config/logs/PlexNotify.txt" ]; then
 	find /config/logs -type f -name "PlexNotify.txt" -size +1024k -delete
 fi
-touch "/config/logs/PlexNotify.txt"
+
+if [ ! -f "/config/logs/PlexNotify.txt" ]; then
+    touch "/config/logs/PlexNotify.txt"
+    chmod 777 "/config/logs/MovieExtras.txt"
+fi
 exec &> >(tee -a "/config/logs/PlexNotify.txt")
 
 log () {
