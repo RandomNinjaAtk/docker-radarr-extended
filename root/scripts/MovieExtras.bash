@@ -102,6 +102,11 @@ fi
 IFS=',' read -r -a filters <<< "$extrasLanguages"
 for filter in "${filters[@]}"
 do
+    if [ "$useProxy" != "true" ] ; then
+    	tmdbVideosListData=$(curl -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?api_key=$tmdbApiKey&language=$filter" | jq -r '.results[] | select(.site=="YouTube")')
+    else 
+        tmdbVideosListData=$(curl -x $proxyUrl:$proxyPort --proxy-user $proxyUsername:$proxyPassword -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?api_key=$tmdbApiKey&language=$filter" | jq -r '.results[] | select(.site=="YouTube")')
+    fi
     tmdbVideosListData=$(curl -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?api_key=$tmdbApiKey&language=$filter" | jq -r '.results[] | select(.site=="YouTube")')
     log "$itemTitle :: Searching for \"$filter\" extras..."
     if [ "$extrasType" == "all" ]; then
