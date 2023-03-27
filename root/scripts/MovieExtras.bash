@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.2"
+scriptVersion="1.0.3"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -107,7 +107,6 @@ do
     else 
         tmdbVideosListData=$(curl -x $proxyUrl:$proxyPort --proxy-user $proxyUsername:$proxyPassword -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?api_key=$tmdbApiKey&language=$filter" | jq -r '.results[] | select(.site=="YouTube")')
     fi
-    tmdbVideosListData=$(curl -s "https://api.themoviedb.org/3/movie/$tmdbId/videos?api_key=$tmdbApiKey&language=$filter" | jq -r '.results[] | select(.site=="YouTube")')
     log "$itemTitle :: Searching for \"$filter\" extras..."
     if [ "$extrasType" == "all" ]; then
         tmdbVideosListDataIds=$(echo "$tmdbVideosListData" | jq -r ".id")
