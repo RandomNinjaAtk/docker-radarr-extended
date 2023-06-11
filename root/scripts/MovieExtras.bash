@@ -151,6 +151,11 @@ do
             extraFolderName="trailers"
         elif [ "$tmdbExtraType" == "Behind the Scenes" ]; then
             extraFolderName="behind the scenes"
+	# Support for Jellyfin's clips folder and add bloopers to extras
+        elif [ "$tmdbExtraType" == "Clip" ]; then
+            extraFolderName="clips"
+        elif [ "$tmdbExtraType" == "Bloopers" ]; then
+            extraFolderName="extras"
         else
             log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: ERROR :: Extra Type Not found"
             if [ -f "/config/logs/MovieExtras-InvalidType.txt" ]; then
