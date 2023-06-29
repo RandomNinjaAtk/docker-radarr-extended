@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-scriptVersion="1.0.3"
+scriptVersion="1.0.4"
 arrEventType="$radarr_eventtype"
 arrItemId=$radarr_movie_id
 tmdbApiKey="3b7751e3179f796565d88fdb2fcdf426"
@@ -152,16 +152,7 @@ do
         elif [ "$tmdbExtraType" == "Behind the Scenes" ]; then
             extraFolderName="behind the scenes"
         else
-            log "$itemTitle :: $i of $tmdbVideosListDataIdsCount :: $tmdbExtraType :: ERROR :: Extra Type Not found"
-            if [ -f "/config/logs/MovieExtras-InvalidType.txt" ]; then
-                if cat "/config/logs/MovieExtras-InvalidType.txt" | grep "$tmdbExtraType" | read; then
-                    continue
-                else
-                    echo "$tmdbExtraType" >> "/config/logs/MovieExtras-InvalidType.txt"
-                fi
-            fi
-            echo "$tmdbExtraType" >> "/config/logs/MovieExtras-InvalidType.txt"
-            continue
+	    extraFolderName="other"
         fi
         
         if [ "$extrasSingle" == "true" ]; then
@@ -178,7 +169,11 @@ do
             fi
         else
             finalPath="$itemPath/$extraFolderName"
-            finalFileName="$tmdbExtraTitleClean"
+	    if [ "$extraFolderName" == "other" ]; then
+     		finalFileName="$tmdbExtraTitleClean ($tmdbExtraType)"
+     	    else
+            	finalFileName="$tmdbExtraTitleClean"
+	     fi
         fi
 
         if [ ! -d "$finalPath" ]; then
