@@ -1,8 +1,8 @@
+# Deprecated
+
+This repository is now deprecated, will no longer be updated and is being archived. 
+
 # [RandomNinjaAtk/radarr-extended](https://github.com/RandomNinjaAtk/docker-radarr-extended)
-[![Docker Build](https://img.shields.io/docker/cloud/automated/randomninjaatk/radarr-extended?style=flat-square)](https://hub.docker.com/r/randomninjaatk/radarr-extended)
-[![Docker Pulls](https://img.shields.io/docker/pulls/randomninjaatk/radarr-extended?style=flat-square)](https://hub.docker.com/r/randomninjaatk/radarr-extended)
-[![Docker Stars](https://img.shields.io/docker/stars/randomninjaatk/radarr-extended?style=flat-square)](https://hub.docker.com/r/randomninjaatk/radarr-extended)
-[![Docker Hub](https://img.shields.io/badge/Open%20On-DockerHub-blue?style=flat-square)](https://hub.docker.com/r/randomninjaatk/radarr-extended)
 
 <table>
   <tr>
